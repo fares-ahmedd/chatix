@@ -3,8 +3,8 @@ import styled from "styled-components";
 const Button = styled.button`
   display: inline-block;
   padding: 12px 50px;
-  margin: 10px;
   font-size: 20px;
+  margin-bottom: 5px;
   font-weight: bold;
   text-transform: uppercase;
   color: var(--color-brand-50);

@@ -8,10 +8,11 @@ const MainElement = styled.main`
   background-color: var(--global-background);
 `;
 const Section = styled.section`
-  padding: 25px 15px;
+  padding: 15px;
   background-color: var(--background);
   border-radius: 10px;
   width: 60%;
+  overflow: auto;
 
   @media (max-width: 768px) {
     width: 90%;

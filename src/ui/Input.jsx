@@ -14,9 +14,10 @@ const Group = styled.div`
 const FormInputField = styled.input`
   background: none;
   background-color: white;
-  color: var(--text-color-900);
+  color: var(--text-color-500);
+  font-weight: bold;
   font-size: 18px;
-  padding: 10px 10px 10px 20px;
+  padding: 10px;
   display: block;
   border-radius: 10px;
   border: 1px solid var(--text-color-900);
@@ -36,7 +37,7 @@ const FormInputField = styled.input`
 `;
 
 const FormInputLabel = styled.label`
-  color: var(--text-color-700);
+  color: var(--text-color-900);
   font-size: 16px;
   font-weight: normal;
   position: absolute;

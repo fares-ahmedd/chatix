@@ -1,0 +1,52 @@
+import styled from "styled-components";
+import Logo from "../assets/logo.svg";
+import Avatar from "../assets/my-img.png";
+const StyledSidebar = styled.aside`
+  grid-row: 1 / -1;
+  border-right: 1px solid var(--border-color);
+  background-color: var(--global-background);
+  padding: 10px;
+  text-align: center;
+`;
+const Img = styled.img`
+  width: 50px;
+  display: block;
+  margin: auto;
+  border-radius: 50%;
+`;
+const Hr = styled.hr`
+  border-color: var(--border-color);
+`;
+const Li = styled.li`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.6s;
+  border-radius: 10px;
+  padding: 7px 2px;
+  margin: 3px;
+
+  &:hover {
+    background-color: var(--color-brand-300);
+    color: var(--color-brand-50);
+  }
+`;
+function Sidebar() {
+  return (
+    <StyledSidebar>
+      <Img src={Logo} alt="Logo" />
+      <h2>Welcome</h2>
+      <Img src={Avatar} alt="Avatar" />
+      <h5>Fares Ahmed</h5>
+      <Hr />
+      <ul>
+        <Li>
+          <Img src={Avatar} alt="Avatar" />
+          <span> Fares Ahmed</span>
+        </Li>
+      </ul>
+    </StyledSidebar>
+  );
+}
+
+export default Sidebar;

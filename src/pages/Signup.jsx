@@ -3,9 +3,11 @@ import { useState } from "react";
 import Main from "../ui/Main";
 import Button from "../ui/Button";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import InputSelectFile from "../ui/InputSelectFile";
 
 const PositionButton = styled.div`
-  margin: 15px auto;
+  margin: 5px auto;
   width: 70%;
   text-align: center;
 `;
@@ -32,19 +34,28 @@ function Login() {
     <Main title={"Create a new account"}>
       <form>
         <Input
-          label={"Your Email"}
+          label={"Enter your name"}
+          id={"text"}
+          // value={email}
+          // onChange={handleChange}
+        />
+        <Input
+          label={"Enter Your Email"}
           id={"email"}
           value={email}
           onChange={handleChange}
         />
-        <Input label={"Your Password"} id={"password"} />
+        <Input label={"Enter Your Password"} id={"password"} />
+        <InputSelectFile />
         <PositionButton>
-          <Button type="button">Login</Button>
+          <Button type="button">Sign up</Button>
         </PositionButton>
       </form>
       <Account>
         <span>you already have an account? </span>
-        <Register>Login</Register>
+        <Register>
+          <Link to={"/login"}>Login</Link>
+        </Register>
       </Account>
     </Main>
   );

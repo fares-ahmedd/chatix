@@ -17,6 +17,7 @@ const GlobalStyles = createGlobalStyle`
   --color-brand-700: #2BEBFC;
   --color-brand-900: #0cdef0;
 
+  --border-color: #e0e1e3;
 } 
 
 *,
@@ -25,12 +26,21 @@ const GlobalStyles = createGlobalStyle`
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  list-style: none;
 }
 
 html {
   font-size: 62.5%;
 }
+a{
+  text-decoration: none;
+  color: var(--color-brand-300);
+  transition: 0.3s;
+}
+a:hover {
+  color: var(--color-brand-500);
 
+}
 body {
   font-family: "Open Sans", sans-serif;
   color: var(--text-color-700);

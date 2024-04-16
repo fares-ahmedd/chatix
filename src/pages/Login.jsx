@@ -3,6 +3,7 @@ import { useState } from "react";
 import Main from "../ui/Main";
 import Button from "../ui/Button";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const PositionButton = styled.div`
   margin: 15px auto;
@@ -44,7 +45,9 @@ function Login() {
       </form>
       <Account>
         <span>you don't have an account? </span>
-        <Register>Register</Register>
+        <Register>
+          <Link to={"/signup"}>Register</Link>
+        </Register>
       </Account>
     </Main>
   );
