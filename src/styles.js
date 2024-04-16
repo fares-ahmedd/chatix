@@ -1,14 +1,23 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-  :root, :root.light-mode {
-    --text-color-700: #374151
-    --text-color-900: #5a6474
-    --text-color-500: #1c283b
-    --globalbackground: #e464
-    --background: #fefe
+  :root {
+    &, &.light-mode {
+    --text-color-700: #374151;
+    --text-color-900: #5a6474;
+    --text-color-500: #1c283b;
+    --global-background: #F9FAFB;
+    --background: white;
     
   }
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-300: #2d959e;
+  --color-brand-500: #6fdfe9;
+  --color-brand-700: #2BEBFC;
+  --color-brand-900: #0cdef0;
+
+} 
 
 *,
 *::before,

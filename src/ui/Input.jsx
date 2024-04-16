@@ -1,46 +1,68 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-const InputGroup = styled.div`
+const shrinkLabel = css`
+  top: -14px;
+  font-size: 12px;
+`;
+
+const Group = styled.div`
   position: relative;
-  margin: 10px;
+  margin: 15px auto;
+  width: 70%;
 `;
-const UserLabel = styled.label`
-  position: absolute;
-  left: 15px;
-  color: #e8e8e8;
-  pointer-events: none;
-  transform: translateY(1rem);
-  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-`;
-const InputElement = styled.input`
-  border: solid 1.5px #9e9e9e;
-  border-radius: 1rem;
-  padding: 1rem;
-  font-size: 1rem;
-  color: #f5f5f5;
-  transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  &:focus,
-  &:valid {
+const FormInputField = styled.input`
+  background: none;
+  background-color: white;
+  color: var(--text-color-900);
+  font-size: 18px;
+  padding: 10px 10px 10px 20px;
+  display: block;
+  border-radius: 10px;
+  border: 1px solid var(--text-color-900);
+  width: 100%;
+
+  &:focus {
     outline: none;
-    border: 1.5px solid #1a73e8;
 
-    & ~ ${UserLabel} {
-      transform: translateY(-50%) scale(0.8);
-      background-color: white;
-      padding: 0 0.2em;
-      color: #2196f3;
+    & ~ label {
+      ${shrinkLabel}
     }
+  }
+
+  &[type="password"] {
+    letter-spacing: 0.3em;
   }
 `;
 
-function Input() {
+const FormInputLabel = styled.label`
+  color: var(--text-color-700);
+  font-size: 16px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 15px;
+  top: 10px;
+  transition: 300ms ease all;
+
+  ${(props) =>
+    props.shrink &&
+    css`
+      ${shrinkLabel}
+    `}
+`;
+
+const Input = ({ label, id, ...otherProps }) => {
   return (
-    <InputGroup>
-      <InputElement required type="text" name="text" autoComplete="off" />
-      <UserLabel>red</UserLabel>
-    </InputGroup>
+    <Group>
+      <FormInputField id={id} autoComplete="off" {...otherProps} />
+      {label && (
+        <FormInputLabel htmlFor={id} shrink={otherProps.value?.length > 0}>
+          {label}
+        </FormInputLabel>
+      )}
+    </Group>
   );
-}
+};
 
 export default Input;
