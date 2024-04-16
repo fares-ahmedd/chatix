@@ -8,16 +8,25 @@ const shrinkLabel = css`
 const Group = styled.div`
   position: relative;
   margin: 15px auto;
-  width: 70%;
+  ${(props) =>
+    props.fullWith
+      ? css`
+          width: 100%;
+        `
+      : css`
+          width: 70%;
+        `}
 `;
-
+Group.defaultProps = {
+  fullWith: false,
+};
 const FormInputField = styled.input`
   background: none;
   background-color: white;
   color: var(--text-color-500);
   font-weight: bold;
   font-size: 18px;
-  padding: 10px;
+  padding: 5px;
   display: block;
   border-radius: 10px;
   border: 1px solid var(--text-color-900);
@@ -53,9 +62,9 @@ const FormInputLabel = styled.label`
     `}
 `;
 
-const Input = ({ label, id, ...otherProps }) => {
+const Input = ({ label, id, fullWith, ...otherProps }) => {
   return (
-    <Group>
+    <Group fullWith={fullWith}>
       <FormInputField id={id} autoComplete="off" {...otherProps} />
       {label && (
         <FormInputLabel htmlFor={id} shrink={otherProps.value?.length > 0}>

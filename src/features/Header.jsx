@@ -24,7 +24,19 @@ const User = styled.div`
 const StyledIcons = styled.ul`
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
+`;
+const Icon = styled.li`
+  cursor: pointer;
+  font-size: 20px;
+  transition: 0.3s;
+  padding: 5px;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: var(--color-brand-300);
+    color: var(--color-brand-50);
+  }
 `;
 function Header() {
   return (
@@ -34,15 +46,15 @@ function Header() {
         <h5>Fares Ahmed</h5>
       </User>
       <StyledIcons>
-        <li>
+        <Icon>
           <FaMoon />
-        </li>
-        <li>
+        </Icon>
+        <Icon>
           <FaUser />
-        </li>
-        <li>
-          <FaArrowRight />
-        </li>
+        </Icon>
+        <Icon>
+          <IoIosLogOut />
+        </Icon>
       </StyledIcons>
     </StyledHeader>
   );
