@@ -26,7 +26,7 @@ const Img = styled.img`
 const P = styled.p`
   color: var(--text-color-900);
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 `;
 const H2 = styled.h2`
   text-align: center;
