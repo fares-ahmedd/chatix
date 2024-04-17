@@ -13,7 +13,8 @@ const Section = styled.section`
   border-radius: 10px;
   width: 60%;
   overflow: auto;
-
+  box-shadow: var(--border-color) 0px 1px 2px 0px,
+    var(--border-color) 0px 1px 3px 1px;
   @media (max-width: 768px) {
     width: 90%;
   }

@@ -3,16 +3,12 @@ import { useState } from "react";
 import Main from "../ui/Main";
 import Button from "../ui/Button";
 import styled from "styled-components";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputSelectFile from "../ui/InputSelectFile";
-import { createUser } from "../services/createUser";
-import { auth, db, storage } from "../services/firebase";
 import Spinner from "../ui/Spinner";
 import useSignup from "./useSignup";
 import { PASSWORD_REGEX } from "../utils/regex";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { updateProfile } from "firebase/auth";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import sendData from "../services/sendData";
 
 const PositionButton = styled.div`
   margin: 5px auto;
@@ -72,46 +68,8 @@ function Login() {
   }
   async function handleSubmit(e) {
     e.preventDefault();
+    sendData(email, password, name, file, setError, setIsLoading, navigate);
     setIsLoading(true);
-
-    try {
-      const response = await createUser(auth, email, password);
-      if (!response)
-        throw new Error(
-          "something went wrong, maybe your email is already exist"
-        );
-      const storageRef = ref(storage, name);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {},
-        (error) => {
-          setError(error.message);
-        },
-        async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          await updateProfile(response.user, {
-            displayName: name,
-            photoURL: downloadURL,
-          });
-          const useData = {
-            uid: response.user.uid,
-            name,
-            email,
-            photoURL: downloadURL,
-          };
-          await setDoc(doc(db, "users", response.user.uid), useData);
-          await setDoc(doc(db, "userChats", response.user.uid), {});
-          // await updateDoc(doc(db, "users", response.user.uid, useData));
-          navigate("/");
-          setIsLoading(false);
-        }
-      );
-      setError("");
-    } catch (error) {
-      setError(error.message);
-      setIsLoading(false);
-    }
   }
   return (
     <Main title={"Create a new account"}>

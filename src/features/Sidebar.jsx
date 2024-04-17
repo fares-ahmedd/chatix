@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import Logo from "../assets/logo.svg";
-import UnknownUser from "../assets/unknownUser.jpg";
 import Avatar from "../assets/my-img.png";
+import Logo from "../assets/logo.svg";
+
 import Input from "../ui/Input";
 import { useAuth } from "../context/AuthContext";
+import { checkValidImage } from "../utils/helpers";
 const StyledSidebar = styled.aside`
   grid-row: 1 / -1;
   border-right: 1px solid var(--border-color);
@@ -22,6 +23,11 @@ const Img = styled.img`
 `;
 const Hr = styled.hr`
   border-color: var(--border-color);
+`;
+const H5 = styled.h5`
+  color: var(--text-color-900);
+  font-weight: 900;
+  letter-spacing: 1.2px;
 `;
 const Li = styled.li`
   display: flex;
@@ -45,8 +51,8 @@ function Sidebar() {
     <StyledSidebar>
       <Img src={Logo} alt="Logo" />
       <h2>Welcome</h2>
-      <Img src={photoURL || UnknownUser} alt="Avatar" />
-      <h5>{displayName}</h5>
+      <Img src={checkValidImage(photoURL)} alt="Avatar" />
+      <H5>{displayName}</H5>
       <Hr />
       <Input label={"Search User"} id={"password"} fullWith={true} />
 
