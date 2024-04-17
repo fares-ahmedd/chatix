@@ -32,6 +32,10 @@ const FormInputField = styled.input`
   border: 1px solid var(--text-color-900);
   width: 100%;
 
+  &.invalid {
+    background-color: #da161686;
+    border: 1px solid red;
+  }
   &:focus {
     outline: none;
 
@@ -62,10 +66,10 @@ const FormInputLabel = styled.label`
     `}
 `;
 
-const Input = ({ label, id, fullWith, ...otherProps }) => {
+const Input = ({ label, id, fullWith, autoComplete, ...otherProps }) => {
   return (
     <Group fullWith={fullWith}>
-      <FormInputField id={id} autoComplete="off" {...otherProps} />
+      <FormInputField id={id} autoComplete={autoComplete} {...otherProps} />
       {label && (
         <FormInputLabel htmlFor={id} shrink={otherProps.value?.length > 0}>
           {label}

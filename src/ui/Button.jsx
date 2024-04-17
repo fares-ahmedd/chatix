@@ -14,7 +14,6 @@ const Button = styled.button`
     var(--color-brand-300)
   );
   border: none;
-
   border-radius: 40px;
   box-shadow: 0px 4px 0px var(--color-brand-300);
   transition: all 0.2s ease-in-out;
@@ -33,6 +32,24 @@ const Button = styled.button`
       var(--color-brand-300),
       #00c6ff
     );
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: translateY(0);
+    box-shadow: none;
+    background-image: gray;
+    color: var(--color-brand-100);
+
+    @media (prefers-color-scheme: dark) {
+      background-image: linear-gradient(
+        to bottom right,
+        var(--color-brand-700),
+        var(--color-brand-900)
+      );
+      color: var(--color-brand-300);
+    }
   }
 `;
 
