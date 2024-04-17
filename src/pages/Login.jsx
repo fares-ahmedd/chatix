@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../ui/Spinner";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../services/firebase";
+import { isInvalidInput } from "../utils/helpers";
 
 const PositionButton = styled.div`
   margin: 15px auto;
@@ -33,6 +34,7 @@ const ErrorMessage = styled.p`
   width: 70%;
   margin: auto;
   padding: 7px;
+  border-radius: 5px;
 `;
 function Login() {
   const [{ email, password }, setValues] = useState({
@@ -44,16 +46,21 @@ function Login() {
   const navigate = useNavigate();
   function handleChange(target, value) {
     setValues((prevData) => ({ ...prevData, [target]: value }));
+    setError(false);
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    setIsLoading(true);
     try {
+      setIsLoading(true);
+      if (!email || !password) {
+        setError(undefined);
+        return;
+      }
       await signInWithEmailAndPassword(auth, email, password);
-      setIsLoading(false);
       navigate("/");
     } catch (_) {
       setError(true);
+    } finally {
       setIsLoading(false);
     }
   }
@@ -62,20 +69,20 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <Input
           label={"Your Email"}
-          id={"email"}
           autoComplete={"new-email"}
           name={"email"}
           value={email}
           onChange={(e) => handleChange("email", e.target.value)}
+          className={isInvalidInput(error)}
         />
         <Input
           label={"Your Password"}
-          id={"password"}
           autoComplete={"new-password"}
           name={"password"}
           value={password}
           type={"password"}
           onChange={(e) => handleChange("password", e.target.value)}
+          className={isInvalidInput(error)}
         />
         {error && (
           <ErrorMessage>

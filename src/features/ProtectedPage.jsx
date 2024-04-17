@@ -4,7 +4,10 @@ import { useAuth } from "../context/AuthContext";
 function ProtectedPage({ children }) {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-  if (!currentUser) navigate("/login");
+  if (!currentUser) {
+    navigate("/login");
+    return;
+  }
   return <>{children}</>;
 }
 

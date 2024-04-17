@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
+import UnknownUser from "../assets/unknownUser.jpg";
 import Avatar from "../assets/my-img.png";
 import Input from "../ui/Input";
+import { useAuth } from "../context/AuthContext";
 const StyledSidebar = styled.aside`
   grid-row: 1 / -1;
   border-right: 1px solid var(--border-color);
@@ -13,6 +15,7 @@ const StyledSidebar = styled.aside`
 
 const Img = styled.img`
   width: 50px;
+  height: 50px;
   display: block;
   margin: auto;
   border-radius: 50%;
@@ -35,12 +38,15 @@ const Li = styled.li`
   }
 `;
 function Sidebar() {
+  const { currentUser } = useAuth();
+  const { displayName, photoURL } = currentUser;
+  console.log(photoURL);
   return (
     <StyledSidebar>
       <Img src={Logo} alt="Logo" />
       <h2>Welcome</h2>
-      <Img src={Avatar} alt="Avatar" />
-      <h5>Fares Ahmed</h5>
+      <Img src={photoURL || UnknownUser} alt="Avatar" />
+      <h5>{displayName}</h5>
       <Hr />
       <Input label={"Search User"} id={"password"} fullWith={true} />
 

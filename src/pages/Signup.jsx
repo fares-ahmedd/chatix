@@ -93,7 +93,7 @@ function Login() {
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           await updateProfile(response.user, {
-            name,
+            displayName: name,
             photoURL: downloadURL,
           });
           const useData = {
