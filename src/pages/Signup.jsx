@@ -84,9 +84,7 @@ function Login() {
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         "state_changed",
-        (snapshot) => {
-          // Handle upload progress or other events if needed
-        },
+        (snapshot) => {},
         (error) => {
           setError(error.message);
         },
