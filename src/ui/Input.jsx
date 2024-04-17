@@ -25,7 +25,6 @@ const FormInputField = styled.input`
   background-color: white;
   color: var(--text-color-500);
   font-weight: bold;
-  font-size: 18px;
   padding: 5px 5px 5px 15px;
   display: block;
   border-radius: 10px;

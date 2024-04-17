@@ -3,12 +3,16 @@ import { useState } from "react";
 import Main from "../ui/Main";
 import Button from "../ui/Button";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import InputSelectFile from "../ui/InputSelectFile";
-import { createUser } from "../services/signup";
-import { auth } from "../services/firebase";
+import { createUser } from "../services/createUser";
+import { auth, db, storage } from "../services/firebase";
 import Spinner from "../ui/Spinner";
-import { MAIL_REGEX, PASSWORD_REGEX, NAME_REGEX } from "../utils/regex";
+import useSignup from "./useSignup";
+import { PASSWORD_REGEX } from "../utils/regex";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { updateProfile } from "firebase/auth";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 
 const PositionButton = styled.div`
   margin: 5px auto;
@@ -32,31 +36,84 @@ const ErrorMessage = styled.p`
   color: red;
   text-align: center;
   background-color: #ff000037;
+  width: fit-content;
+  margin: auto;
+  padding: 7px;
 `;
-const initialState = {
+const initialValues = {
   name: "",
   email: "",
   password: "",
   file: "",
 };
 function Login() {
-  const [{ name, email, password, file }, setValues] = useState(initialState);
+  // todo : hooks
+  const [{ name, email, password, file }, setValues] = useState(initialValues);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const validEmail = MAIL_REGEX.test(email.trim()) || email === "";
-  const validPassword = PASSWORD_REGEX.test(password.trim()) || password === "";
-  const validName = NAME_REGEX.test(name.trim()) || name === "";
-
+  const { setEditsValues, invalidEmail, invalidName, invalidPassword } =
+    useSignup({ name, email, password });
+  const navigate = useNavigate();
+  // todo : vars
+  const isCompleteData =
+    name.trim() === "" ||
+    email.trim() === "" ||
+    password.trim() === "" ||
+    invalidEmail ||
+    invalidName ||
+    invalidPassword ||
+    PASSWORD_REGEX.test(password) === false;
+  // todo : handlers functions
   function handleChange(name, value) {
     setValues((prevValue) => ({ ...prevValue, [name]: value }));
+  }
+  function handleBlur(name) {
+    setEditsValues((prevValue) => ({ ...prevValue, [name]: true }));
   }
   async function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
-    const response = await createUser(auth, email, password);
-    setError(response);
-    setIsLoading(false);
+
+    try {
+      const response = await createUser(auth, email, password);
+      if (!response)
+        throw new Error(
+          "something went wrong, maybe your email is already exist"
+        );
+      const storageRef = ref(storage, name);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Handle upload progress or other events if needed
+        },
+        (error) => {
+          setError(error.message);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          await updateProfile(response.user, {
+            name,
+            photoURL: downloadURL,
+          });
+          const useData = {
+            uid: response.user.uid,
+            name,
+            email,
+            photoURL: downloadURL,
+          };
+          await setDoc(doc(db, "users", response.user.uid), useData);
+          await setDoc(doc(db, "userChats", response.user.uid), {});
+          // await updateDoc(doc(db, "users", response.user.uid, useData));
+          navigate("/");
+          setIsLoading(false);
+        }
+      );
+      setError("");
+    } catch (error) {
+      setError(error.message);
+      setIsLoading(false);
+    }
   }
   return (
     <Main title={"Create a new account"}>
@@ -69,7 +126,8 @@ function Login() {
           autoComplete={"off"}
           value={name}
           onChange={(e) => handleChange("name", e.target.value)}
-          className={!validName ? "invalid" : ""}
+          onBlur={() => handleBlur("isEditingName")}
+          className={invalidName ? "invalid" : ""}
         />
         <Input
           label={"Enter Your Email"}
@@ -78,7 +136,8 @@ function Login() {
           value={email}
           autoComplete={"new-email"}
           onChange={(e) => handleChange("email", e.target.value)}
-          className={!validEmail ? "invalid" : ""}
+          onBlur={() => handleBlur("isEditingEmail")}
+          className={invalidEmail ? "invalid" : ""}
         />
         <Input
           label={"Enter Your Password"}
@@ -87,15 +146,21 @@ function Login() {
           value={password}
           autoComplete={"new-password"}
           onChange={(e) => handleChange("password", e.target.value)}
-          className={!validPassword ? "invalid" : ""}
+          onBlur={() => handleBlur("isEditingPassword")}
+          className={invalidPassword ? "invalid" : ""}
         />
-        <InputSelectFile />
-        {error && (
-          <ErrorMessage>something went wrong while signup</ErrorMessage>
-        )}
+        <InputSelectFile
+          onChange={(e) =>
+            setValues((prevValue) => ({
+              ...prevValue,
+              file: e.target.files[0],
+            }))
+          }
+        />
+        {error && <ErrorMessage>{error}</ErrorMessage>}
 
         <PositionButton>
-          <Button type="submit" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading || isCompleteData}>
             {isLoading ? <Spinner /> : "Signup"}
           </Button>
         </PositionButton>

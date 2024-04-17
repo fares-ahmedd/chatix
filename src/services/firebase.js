@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyBmn-PzBI3-LeKp2DxywbtmgrhJC7JnC6E",
   authDomain: "chat-88026.firebaseapp.com",
@@ -11,3 +13,5 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const storage = getStorage();
+export const db = getFirestore();

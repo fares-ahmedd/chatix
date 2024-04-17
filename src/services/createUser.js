@@ -7,10 +7,10 @@ export async function createUser(auth, email, password) {
       email,
       password
     );
-    const user = userCredential.user;
-    console.log(user);
-  } catch (error) {
-    return error.message;
+    // const user = userCredential.user;
+    return userCredential;
+  } catch (_) {
+    return null;
     // Handle error here
   }
 }

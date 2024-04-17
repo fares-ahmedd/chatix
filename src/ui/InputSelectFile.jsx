@@ -27,10 +27,15 @@ const Container = styled.label`
   color: var(--text-color-900);
 `;
 
-function InputSelectFile() {
+function InputSelectFile({ onChange }) {
   return (
     <StyledInput>
-      <Input type="file" id="file" />
+      <Input
+        type="file"
+        id="file"
+        accept=".jpg,.png,.jpeg"
+        onChange={onChange}
+      />
       <Container htmlFor="file">
         <Image>
           <FaImage />

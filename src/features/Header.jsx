@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Avatar from "../assets/my-img.png";
 import { FaMoon, FaUser, FaArrowRight } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
+import { signOut } from "firebase/auth";
+import { auth } from "../services/firebase";
 
 const StyledHeader = styled.header`
   padding: 15px 5px;
@@ -39,6 +41,9 @@ const Icon = styled.li`
   }
 `;
 function Header() {
+  function handleLogout() {
+    signOut(auth);
+  }
   return (
     <StyledHeader>
       <User>
@@ -52,7 +57,7 @@ function Header() {
         <Icon>
           <FaUser />
         </Icon>
-        <Icon>
+        <Icon onClick={handleLogout}>
           <IoIosLogOut />
         </Icon>
       </StyledIcons>

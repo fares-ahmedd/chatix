@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Chat from "../features/Chat";
 import Header from "../features/Header";
 import Sidebar from "../features/Sidebar";
+import { useAuth } from "../context/AuthContext";
 
 const Main = styled.main`
   display: grid;
@@ -11,6 +12,9 @@ const Main = styled.main`
 `;
 
 function Home() {
+  const { currentUser } = useAuth();
+  console.log(currentUser);
+
   return (
     <Main>
       <Header />
