@@ -4,8 +4,16 @@ import Signup from "./pages/Signup";
 import GlobalStyles from "./styles.js";
 import Home from "./pages/Home.jsx";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
+import ProtectedPage from "./features/ProtectedPage.jsx";
 const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
+  {
+    path: "/",
+    element: (
+      <ProtectedPage>
+        <Home />
+      </ProtectedPage>
+    ),
+  },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <Signup /> },
 ]);
