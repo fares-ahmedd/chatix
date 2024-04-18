@@ -91,7 +91,9 @@ function Login() {
         )}
 
         <PositionButton>
-          <Button type="submit">{isLoading ? <Spinner /> : "LOGIN"}</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? <Spinner /> : "LOGIN"}
+          </Button>
         </PositionButton>
       </form>
       <Account>

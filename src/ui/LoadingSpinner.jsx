@@ -39,10 +39,14 @@ const Bar = styled.div`
   animation: ${loaderAnimation} 1.2s linear infinite;
   animation-delay: ${(props) => props.delay}s;
 `;
+const Div = styled.div`
+  position: relative;
+  height: 100vh;
+`;
 
-const Loader = () => {
+function Loader() {
   return (
-    <div>
+    <Div>
       <BackgroundStyled>
         <Bar delay={0.1} />
         <Bar delay={0.2} />
@@ -53,8 +57,8 @@ const Loader = () => {
         <Bar delay={0.7} />
         <Bar delay={0.8} />
       </BackgroundStyled>
-    </div>
+    </Div>
   );
-};
+}
 
 export default Loader;

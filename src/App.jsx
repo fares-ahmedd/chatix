@@ -5,6 +5,7 @@ import GlobalStyles from "./styles.js";
 import Home from "./pages/Home.jsx";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
 import ProtectedPage from "./features/ProtectedPage.jsx";
+import NotFoundPage from "./ui/PageNotFound.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
+  { path: "*", element: <NotFoundPage /> },
 ]);
 
 function App() {
