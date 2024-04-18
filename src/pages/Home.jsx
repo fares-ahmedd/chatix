@@ -3,7 +3,6 @@ import Chat from "../features/Chat";
 import Header from "../features/Header";
 import Sidebar from "../features/Sidebar";
 import { useAuth } from "../context/AuthContext";
-import Loader from "../ui/LoadingSpinner";
 
 const Main = styled.main`
   display: grid;

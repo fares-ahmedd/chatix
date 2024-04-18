@@ -42,16 +42,18 @@ const Bar = styled.div`
 
 const Loader = () => {
   return (
-    <BackgroundStyled>
-      <Bar delay={0.1} />
-      <Bar delay={0.2} />
-      <Bar delay={0.3} />
-      <Bar delay={0.4} />
-      <Bar delay={0.5} />
-      <Bar delay={0.6} />
-      <Bar delay={0.7} />
-      <Bar delay={0.8} />
-    </BackgroundStyled>
+    <div>
+      <BackgroundStyled>
+        <Bar delay={0.1} />
+        <Bar delay={0.2} />
+        <Bar delay={0.3} />
+        <Bar delay={0.4} />
+        <Bar delay={0.5} />
+        <Bar delay={0.6} />
+        <Bar delay={0.7} />
+        <Bar delay={0.8} />
+      </BackgroundStyled>
+    </div>
   );
 };
 

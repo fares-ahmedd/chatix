@@ -1,20 +1,22 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Spinner from "../ui/Spinner";
-import { useEffect } from "react";
 import Loader from "../ui/LoadingSpinner";
 
-function ProtectedPage({ children }) {
-  const { user, isLoading } = useAuth();
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (!user) {
-  //     navigate("/login");
-  //   }
-  // }, [user, navigate]);
+function ProtectedPage() {
+  const { currentUser, isLoading } = useAuth();
+
+  const location = useLocation();
+
   if (isLoading) return <Loader />;
 
-  return <>{children}</>;
+  return (
+    <>
+      {currentUser ? (
+        <Outlet />
+      ) : (
+        <Navigate to="/login" state={{ from: location }} replace />
+      )}
+    </>
+  );
 }
-
 export default ProtectedPage;

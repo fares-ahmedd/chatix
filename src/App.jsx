@@ -8,12 +8,8 @@ import ProtectedPage from "./features/ProtectedPage.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <ProtectedPage>
-        <Home />
-      </ProtectedPage>
-    ),
+    element: <ProtectedPage />,
+    children: [{ path: "/", element: <Home /> }],
   },
   {
     path: "/login",

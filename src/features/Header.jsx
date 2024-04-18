@@ -43,6 +43,7 @@ const Icon = styled.li`
 function Header() {
   function handleLogout() {
     signOut(auth);
+    // auth.signOut(); khaled appporch
   }
   return (
     <StyledHeader>
