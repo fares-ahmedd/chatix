@@ -2,7 +2,7 @@ import styled, { keyframes } from "styled-components";
 
 const spinnerFade = keyframes`
   0% {
-    background-color: white;
+    background-color: green;
   }
   100% {
     background-color: transparent;
