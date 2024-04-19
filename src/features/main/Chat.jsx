@@ -1,11 +1,12 @@
-import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
 import { FaImage } from "react-icons/fa";
 import { IoSendSharp } from "react-icons/io5";
+import styled from "styled-components";
+import { useAuth } from "../../context/AppDataContext";
 import Message from "./Message";
-import { useEffect, useRef } from "react";
-import { useAuth } from "../context/AuthContext";
-import Logo from "../assets/logo.svg";
-import Button from "../ui/Button";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../services/firebase";
+
 const Section = styled.section`
   display: flex;
   flex-direction: column;
@@ -51,33 +52,33 @@ const InputMessage = styled.input`
     font-size: 14px;
   }
 `;
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 10px;
-`;
-const Img = styled.img`
-  width: 100px;
-  height: 100px;
-`;
 
 function Chat() {
-  const { isSelected, isOpen, setIsOpen } = useAuth();
+  const { messages, setMessages } = useState([]);
   const formRef = useRef(null);
+
+  const { isOpen, idRef } = useAuth();
+
   useEffect(() => {
-    const form = formRef.current;
-    if (form) {
-      form.scrollIntoView({ block: "end" });
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ block: "end" });
     }
   }, [isOpen]);
+  useEffect(() => {
+    const unSub = onSnapshot(doc(db, "chats", idRef.current), (doc) => {
+      doc.exists() && setMessages(doc.data());
+    });
 
-  return isSelected ? (
+    return () => {
+      unSub();
+    };
+  }, [idRef, setMessages]);
+  return (
     <Section>
       <Main>
-        <Message />
-        <Message isOwner={true} />
+        {messages.map((message) => (
+          <Message message={message} />
+        ))}
       </Main>
       <Form ref={formRef}>
         <Label htmlFor="send-image">
@@ -90,18 +91,6 @@ function Chat() {
         </StyledButton>
       </Form>
     </Section>
-  ) : (
-    <Container>
-      <Img src={Logo} alt="LOGO" />
-      <h3>Welcome to Chatix</h3>
-      <h4>Chat with people from around the world.</h4>
-      <Button
-        style={{ padding: "10px" }}
-        onClick={() => setIsOpen((value) => !value)}
-      >
-        Find users
-      </Button>
-    </Container>
   );
 }
 

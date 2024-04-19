@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { auth } from "../services/firebase";
 
 const AuthContext = createContext();
@@ -8,7 +8,7 @@ function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
-
+  const idRef = useRef();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -27,6 +27,7 @@ function AuthContextProvider({ children }) {
     isOpen,
     setIsSelected,
     isSelected,
+    idRef,
   };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }

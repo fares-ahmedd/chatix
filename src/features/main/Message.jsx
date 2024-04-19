@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import UserImage from "../assets/my-img.png";
+import UserImage from "../../assets/my-img.png";
 
 const Img = styled.img`
   width: 40px;
@@ -39,14 +39,17 @@ const Article = styled.article`
   }
 `;
 
-function Message({ isOwner = false }) {
+function Message({ message }) {
+  console.log(message);
   return (
-    <MessageStyled className={isOwner ? "owner" : ""}>
+    // <MessageStyled className={isOwner ? "owner" : ""}>
+    <MessageStyled>
       <Section>
         <Img src={UserImage} alt="Message " />
         <Time>just now</Time>
       </Section>
-      <Article className={isOwner ? "owner" : ""}>
+      <Article>
+        {/* <Article className={isOwner ? "owner" : ""}> */}
         <p>
           Hey How are you! ewqewqewqewqewqewqlenwqjkenwkqnewoqoe moqw meioq wme
           owqmioeqw

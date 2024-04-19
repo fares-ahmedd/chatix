@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { FaMoon, FaUser } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import { signOut } from "firebase/auth";
-import { auth } from "../services/firebase";
-import { checkValidImage } from "../utils/helpers";
+import { auth } from "../../services/firebase";
+import { checkValidImage } from "../../utils/helpers";
 import { BsPeopleFill } from "react-icons/bs";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AppDataContext";
 
 const StyledHeader = styled.header`
   padding: 15px 5px;

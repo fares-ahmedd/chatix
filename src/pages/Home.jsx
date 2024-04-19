@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Chat from "../features/Chat";
-import Header from "../features/Header";
+import WelcomeScreen from "../features/main/WelcomeScreen";
+import Header from "../features/header/Header";
 import Sidebar from "../features/sidebar/Sidebar";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AppDataContext";
 import { useState } from "react";
 
 const Main = styled.main`
@@ -18,14 +18,13 @@ const Main = styled.main`
 function Home() {
   const [selectedUser, setSelectedUser] = useState(null);
   const { currentUser, isOpen } = useAuth();
-  console.log(currentUser);
-  console.log("rendering");
+  console.log(selectedUser);
 
   return (
     <Main className={!isOpen ? "active" : ""}>
       <Header selectedUser={selectedUser} />
       <Sidebar setSelectedUser={setSelectedUser} />
-      <Chat />
+      <WelcomeScreen />
     </Main>
   );
 }

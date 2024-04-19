@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import GlobalStyles from "./styles.js";
 import Home from "./pages/Home.jsx";
-import { AuthContextProvider } from "./context/AuthContext.jsx";
+import { AuthContextProvider } from "./context/AppDataContext.jsx";
 import ProtectedPage from "./features/ProtectedPage.jsx";
 import NotFoundPage from "./ui/PageNotFound.jsx";
 
@@ -15,6 +15,7 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+    ErrorBoundary: <NotFoundPage />,
   },
   {
     path: "/signup",

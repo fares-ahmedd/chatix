@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Logo from "../../assets/logo.svg";
 import Input from "../../ui/Input";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/AppDataContext";
 import { checkValidImage } from "../../utils/helpers";
 import { useEffect, useState } from "react";
 import {
@@ -63,7 +63,7 @@ const Container = styled.section`
 function Sidebar({ setSelectedUser }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [usersList, setUsersList] = useState([]);
-  const { currentUser, isOpen } = useAuth();
+  const { currentUser, isOpen, setIsOpen, setIsSelected, idRef } = useAuth();
   const { displayName, photoURL, uid } = currentUser;
   const filteredUsers = usersList.filter((user) =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -92,13 +92,15 @@ function Sidebar({ setSelectedUser }) {
     return () => {
       unsub();
     };
-  }, [searchQuery, uid]);
+  }, [searchQuery, uid, idRef]);
   async function handleSelect(user) {
     setSelectedUser(user);
     const combinedId =
       currentUser.uid > user.uid
         ? currentUser.uid + user.uid
         : user.uid + currentUser.uid;
+    idRef.current = combinedId;
+
     try {
       const response = await getDoc(doc(db, "chats", combinedId));
       if (!response.exists()) {
@@ -123,6 +125,8 @@ function Sidebar({ setSelectedUser }) {
           [combinedId + ".date"]: serverTimestamp(),
         });
       }
+      setIsSelected(true);
+      setIsOpen(false);
     } catch (error) {
       console.log(error.message);
     }
