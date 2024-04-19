@@ -4,6 +4,7 @@ import { FaMoon, FaUser, FaArrowRight } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import { signOut } from "firebase/auth";
 import { auth } from "../services/firebase";
+import { checkValidImage } from "../utils/helpers";
 
 const StyledHeader = styled.header`
   padding: 15px 5px;
@@ -40,16 +41,19 @@ const Icon = styled.li`
     color: var(--color-brand-50);
   }
 `;
-function Header() {
+function Header({ selectedUser }) {
   function handleLogout() {
     signOut(auth);
   }
   return (
     <StyledHeader>
-      <User>
-        <Img src={Avatar} alt={"Avatar"} />
-        <h5>Fares Ahmed</h5>
-      </User>
+      {selectedUser && (
+        <User>
+          <p>talking to:</p>
+          <Img src={checkValidImage(selectedUser.photoURL)} alt={"Avatar"} />
+          <h5>{selectedUser.name}</h5>
+        </User>
+      )}
       <StyledIcons>
         <Icon>
           <FaMoon />

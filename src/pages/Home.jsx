@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import Chat from "../features/Chat";
 import Header from "../features/Header";
-import Sidebar from "../features/Sidebar";
+import Sidebar from "../features/sidebar/Sidebar";
 import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 const Main = styled.main`
   display: grid;
@@ -12,13 +13,14 @@ const Main = styled.main`
 `;
 
 function Home() {
+  const [selectedUser, setSelectedUser] = useState(null);
   const { currentUser } = useAuth();
   console.log(currentUser);
 
   return (
     <Main>
-      <Header />
-      <Sidebar />
+      <Header selectedUser={selectedUser} />
+      <Sidebar setSelectedUser={setSelectedUser} />
       <Chat />
     </Main>
   );

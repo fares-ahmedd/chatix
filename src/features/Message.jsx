@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import UserImage from "../assets/my-img.png";
-import Image from "../assets/logo.svg";
 
 const Img = styled.img`
   width: 40px;
@@ -29,7 +28,6 @@ const Article = styled.article`
   max-width: 80%;
   margin-bottom: 18px;
   background-color: var(--global-background-500);
-
   position: relative;
   &::before {
     content: "";
@@ -37,8 +35,7 @@ const Article = styled.article`
     border: 12px solid;
     border-color: transparent transparent var(--global-background-500)
       transparent;
-    left: 0;
-    top: -21px;
+    top: -24px;
   }
 `;
 
