@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import UserImage from "../../assets/my-img.png";
+import { useAuth } from "../../context/AppDataContext";
 
 const Img = styled.img`
   width: 40px;
@@ -40,12 +41,19 @@ const Article = styled.article`
 `;
 
 function Message({ message }) {
-  console.log(message);
+  const { currentUser, selectedUser } = useAuth();
+  console.log(selectedUser);
   return (
-    // <MessageStyled className={isOwner ? "owner" : ""}>
-    <MessageStyled>
+    <MessageStyled className={message.senderId === currentUser.uid && "owner"}>
       <Section>
-        <Img src={UserImage} alt="Message " />
+        <Img
+          src={
+            message.senderId === currentUser.uid
+              ? currentUser.photoURL
+              : selectedUser.current.photoURL
+          }
+          alt="Message Logo"
+        />
         <Time>just now</Time>
       </Section>
       <Article>

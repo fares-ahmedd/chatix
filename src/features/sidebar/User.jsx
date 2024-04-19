@@ -24,14 +24,20 @@ const Li = styled.li`
   border-bottom: 2px solid var(--border-color);
   border-radius: 10px 10px 0 0;
 
-  &:hover {
+  &:hover,
+  &.active {
     background-color: var(--color-brand-300);
     color: var(--color-brand-50);
   }
 `;
-function User({ user, onClick }) {
+function User({ user, onClick, className }) {
   return (
-    <Li key={user.uid} title={user.name} onClick={onClick}>
+    <Li
+      key={user.uid}
+      title={user.name}
+      onClick={onClick}
+      className={className}
+    >
       <Img src={user.photoURL || unknownUser} alt="Avatar" />
       <Span>{user.name.split(" ")[0]}...</Span>
     </Li>

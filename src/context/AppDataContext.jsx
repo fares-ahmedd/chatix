@@ -9,6 +9,7 @@ function AuthContextProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   const idRef = useRef();
+  const selectedUser = useRef();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -28,6 +29,7 @@ function AuthContextProvider({ children }) {
     setIsSelected,
     isSelected,
     idRef,
+    selectedUser,
   };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }

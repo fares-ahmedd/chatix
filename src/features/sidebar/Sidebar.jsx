@@ -62,8 +62,11 @@ const Container = styled.section`
 
 function Sidebar({ setSelectedUser }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeUser, setActiveUser] = useState(null);
+
   const [usersList, setUsersList] = useState([]);
-  const { currentUser, isOpen, setIsOpen, setIsSelected, idRef } = useAuth();
+  const { currentUser, isOpen, setIsOpen, setIsSelected, idRef, selectedUser } =
+    useAuth();
   const { displayName, photoURL, uid } = currentUser;
   const filteredUsers = usersList.filter((user) =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -100,7 +103,7 @@ function Sidebar({ setSelectedUser }) {
         ? currentUser.uid + user.uid
         : user.uid + currentUser.uid;
     idRef.current = combinedId;
-
+    selectedUser.current = user;
     try {
       const response = await getDoc(doc(db, "chats", combinedId));
       if (!response.exists()) {
@@ -127,6 +130,7 @@ function Sidebar({ setSelectedUser }) {
       }
       setIsSelected(true);
       setIsOpen(false);
+      setActiveUser(user.uid);
     } catch (error) {
       console.log(error.message);
     }
@@ -157,6 +161,7 @@ function Sidebar({ setSelectedUser }) {
                   user={user}
                   key={user.uid}
                   onClick={() => handleSelect(user)}
+                  className={user.uid === activeUser ? "active" : ""}
                 />
               ))
             ) : (
