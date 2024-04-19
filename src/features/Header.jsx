@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import Avatar from "../assets/my-img.png";
-import { FaMoon, FaUser, FaArrowRight } from "react-icons/fa";
+import { FaMoon, FaUser } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import { signOut } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { checkValidImage } from "../utils/helpers";
+import { BsPeopleFill } from "react-icons/bs";
+import { useAuth } from "../context/AuthContext";
 
 const StyledHeader = styled.header`
   padding: 15px 5px;
@@ -41,12 +42,33 @@ const Icon = styled.li`
     color: var(--color-brand-50);
   }
 `;
+const ToggleIcon = styled.span`
+  cursor: pointer;
+  font-size: 28px;
+  transition: 0.3s;
+  padding: 5px;
+  border-radius: 10px;
+  animation: 1s ease-in-out forwards;
+  &:hover,
+  &.active {
+    background-color: var(--color-brand-300);
+    color: var(--color-brand-50);
+  }
+`;
+
 function Header({ selectedUser }) {
+  const { setIsOpen, isOpen } = useAuth();
   function handleLogout() {
     signOut(auth);
   }
   return (
     <StyledHeader>
+      <ToggleIcon
+        onClick={() => setIsOpen((value) => !value)}
+        className={isOpen ? "active" : ""}
+      >
+        <BsPeopleFill />
+      </ToggleIcon>
       {selectedUser && (
         <User>
           <p>talking to:</p>

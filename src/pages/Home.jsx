@@ -10,15 +10,19 @@ const Main = styled.main`
   grid-template-columns: 150px 1fr;
   grid-template-rows: auto 1fr;
   height: 100dvh;
+  &.active {
+    grid-template-columns: 1fr;
+  }
 `;
 
 function Home() {
   const [selectedUser, setSelectedUser] = useState(null);
-  const { currentUser } = useAuth();
+  const { currentUser, isOpen } = useAuth();
   console.log(currentUser);
+  console.log("rendering");
 
   return (
-    <Main>
+    <Main className={!isOpen ? "active" : ""}>
       <Header selectedUser={selectedUser} />
       <Sidebar setSelectedUser={setSelectedUser} />
       <Chat />

@@ -6,6 +6,9 @@ const AuthContext = createContext();
 
 function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
+
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -17,11 +20,15 @@ function AuthContextProvider({ children }) {
     };
   }, []);
   console.log(currentUser);
-  return (
-    <AuthContext.Provider value={{ currentUser, isLoading }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const values = {
+    currentUser,
+    isLoading,
+    setIsOpen,
+    isOpen,
+    setIsSelected,
+    isSelected,
+  };
+  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }
 
 function useAuth() {

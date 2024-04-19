@@ -63,7 +63,7 @@ const Container = styled.section`
 function Sidebar({ setSelectedUser }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [usersList, setUsersList] = useState([]);
-  const { currentUser } = useAuth();
+  const { currentUser, isOpen } = useAuth();
   const { displayName, photoURL, uid } = currentUser;
   const filteredUsers = usersList.filter((user) =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -129,35 +129,41 @@ function Sidebar({ setSelectedUser }) {
   }
   console.log(usersList);
   return (
-    <StyledSidebar>
-      <Info>
-        <Img src={Logo} alt="Logo" />
-        <h2>Welcome</h2>
-        <Img src={checkValidImage(photoURL)} alt="Avatar" />
-        <H5>{displayName}</H5>
-      </Info>
-      <Hr />
-      <Container>
-        <Input
-          label={"Search User"}
-          id={"password"}
-          fullWith={true}
-          onChange={handleChange}
-          value={searchQuery}
-        />
-        <ul>
-          {filteredUsers.length > 0 ? (
-            filteredUsers.map((user) => (
-              <User user={user} onClick={() => handleSelect(user)} />
-            ))
-          ) : (
-            <NoResultsMessage>
-              No users match the search query.
-            </NoResultsMessage>
-          )}
-        </ul>
-      </Container>
-    </StyledSidebar>
+    isOpen && (
+      <StyledSidebar>
+        <Info>
+          <Img src={Logo} alt="Logo" />
+          <h2>Welcome</h2>
+          <Img src={checkValidImage(photoURL)} alt="Avatar" />
+          <H5>{displayName}</H5>
+        </Info>
+        <Hr />
+        <Container>
+          <Input
+            label={"Search User"}
+            id={"password"}
+            fullWith={true}
+            onChange={handleChange}
+            value={searchQuery}
+          />
+          <ul>
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map((user) => (
+                <User
+                  user={user}
+                  key={user.uid}
+                  onClick={() => handleSelect(user)}
+                />
+              ))
+            ) : (
+              <NoResultsMessage>
+                No users match the search query.
+              </NoResultsMessage>
+            )}
+          </ul>
+        </Container>
+      </StyledSidebar>
+    )
   );
 }
 
