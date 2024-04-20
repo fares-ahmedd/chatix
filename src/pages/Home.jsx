@@ -17,8 +17,7 @@ const Main = styled.main`
 
 function Home() {
   const [selectedUser, setSelectedUser] = useState(null);
-  const { currentUser, isOpen } = useAuth();
-  console.log(selectedUser);
+  const { isOpen } = useAuth();
 
   return (
     <Main className={!isOpen ? "active" : ""}>

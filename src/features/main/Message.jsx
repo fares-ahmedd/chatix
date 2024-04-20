@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import UserImage from "../../assets/my-img.png";
+import UnKnownImage from "../../assets/unknownUser.jpg";
 import { useAuth } from "../../context/AppDataContext";
+import { getTime } from "../../utils/helpers";
 
 const Img = styled.img`
   width: 40px;
@@ -42,33 +43,31 @@ const Article = styled.article`
 
 function Message({ message }) {
   const { currentUser, selectedUser } = useAuth();
-  console.log(selectedUser);
+  console.log(message);
+
+  const time = getTime(message.date.seconds, message.date.nanoseconds);
   return (
     <MessageStyled className={message.senderId === currentUser.uid && "owner"}>
       <Section>
         <Img
           src={
             message.senderId === currentUser.uid
-              ? currentUser.photoURL
-              : selectedUser.current.photoURL
+              ? currentUser.photoURL || UnKnownImage
+              : selectedUser.current.photoURL || UnKnownImage
           }
           alt="Message Logo"
         />
-        <Time>just now</Time>
+        <Time>{time}</Time>
       </Section>
       <Article>
-        {/* <Article className={isOwner ? "owner" : ""}> */}
-        <p>
-          Hey How are you! ewqewqewqewqewqewqlenwqjkenwkqnewoqoe moqw meioq wme
-          owqmioeqw
-        </p>
-        <img
-          src={
-            "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg"
-          }
-          alt="sendImage"
-          style={{ maxWidth: "80%", borderRadius: "10px" }}
-        />
+        <p>{message.text}</p>
+        {message.image && (
+          <img
+            src={message.image}
+            alt="sendImage"
+            style={{ maxWidth: "80%", borderRadius: "10px" }}
+          />
+        )}
       </Article>
     </MessageStyled>
   );

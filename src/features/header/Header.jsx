@@ -57,9 +57,11 @@ const ToggleIcon = styled.span`
 `;
 
 function Header({ selectedUser }) {
-  const { setIsOpen, isOpen } = useAuth();
+  const { setIsOpen, isOpen, setIsSelected } = useAuth();
   function handleLogout() {
     signOut(auth);
+    setIsSelected(false);
+    setIsOpen(false);
   }
   return (
     <StyledHeader>

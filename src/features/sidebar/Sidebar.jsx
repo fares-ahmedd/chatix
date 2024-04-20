@@ -104,6 +104,7 @@ function Sidebar({ setSelectedUser }) {
         : user.uid + currentUser.uid;
     idRef.current = combinedId;
     selectedUser.current = user;
+    console.log(selectedUser.current);
     try {
       const response = await getDoc(doc(db, "chats", combinedId));
       if (!response.exists()) {
@@ -135,7 +136,6 @@ function Sidebar({ setSelectedUser }) {
       console.log(error.message);
     }
   }
-  console.log(usersList);
   return (
     isOpen && (
       <StyledSidebar>

@@ -9,7 +9,6 @@ import {
   arrayUnion,
   doc,
   onSnapshot,
-  serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "../../services/firebase";
@@ -62,6 +61,11 @@ const InputMessage = styled.input`
   }
 `;
 
+const StyledUploadImage = styled.span`
+  font-size: 13px;
+  color: #075f07;
+`;
+
 function Chat() {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
@@ -69,20 +73,21 @@ function Chat() {
   const formRef = useRef(null);
   const { currentUser } = useAuth();
   const { isOpen, idRef } = useAuth();
+  const combinedId = idRef.current;
   useEffect(() => {
-    if (formRef.current) {
+    const timer = setTimeout(() => {
       formRef.current.scrollIntoView({ block: "end" });
-    }
+    }, 1000);
+    return () => clearTimeout(timer);
   }, [isOpen]);
   useEffect(() => {
-    const unSub = onSnapshot(doc(db, "chats", idRef.current), (doc) => {
+    const unSub = onSnapshot(doc(db, "chats", combinedId), (doc) => {
       doc.exists() && setMessages(doc.data().messages);
     });
-
     return () => {
       unSub();
     };
-  }, [idRef, setMessages]);
+  }, [combinedId, setMessages]);
   async function handleSend(e) {
     e.preventDefault();
     if (image) {
@@ -132,9 +137,11 @@ function Chat() {
           <InputFile
             type="file"
             id="send-image"
+            accept="image/*"
             onChange={(e) => setImage(e.target.files[0])}
           />
           <FaImage />
+          {image && <StyledUploadImage>Uploaded image</StyledUploadImage>}
         </Label>
         <InputMessage
           type="text"

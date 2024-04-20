@@ -36,6 +36,12 @@ const ErrorMessage = styled.p`
   margin: auto;
   padding: 7px;
 `;
+const StyledUploadImage = styled.span`
+  font-size: 13px;
+  color: #075f07;
+  text-align: center;
+  display: block;
+`;
 const initialValues = {
   name: "",
   email: "",
@@ -113,6 +119,9 @@ function Login() {
             }))
           }
         />
+        {file && (
+          <StyledUploadImage>Uploaded Image successfully</StyledUploadImage>
+        )}
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
         <PositionButton>
