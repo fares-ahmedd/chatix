@@ -6,6 +6,7 @@ import Home from "./pages/Home.jsx";
 import { AuthContextProvider } from "./context/AppDataContext.jsx";
 import ProtectedPage from "./features/ProtectedPage.jsx";
 import NotFoundPage from "./ui/PageNotFound.jsx";
+import { DarkModeProvider } from "./context/DarkModeContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,10 +27,12 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <AuthContextProvider>
-        <GlobalStyles />
-        <RouterProvider router={router} />
-      </AuthContextProvider>
+      <DarkModeProvider>
+        <AuthContextProvider>
+          <GlobalStyles />
+          <RouterProvider router={router} />
+        </AuthContextProvider>
+      </DarkModeProvider>
     </>
   );
 }

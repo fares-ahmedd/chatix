@@ -20,6 +20,7 @@ const Section = styled.section`
   flex-direction: column;
   justify-content: space-between;
   overflow: auto;
+  background-color: var(--background);
 `;
 
 const Form = styled.form`
@@ -51,9 +52,14 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--input-color-500);
+  background-color: transparent;
 `;
 
 const InputMessage = styled.input`
+  background-color: var(--global-background);
+  color: var(--input-color-500);
+  border: 1px solid var(--text-color-900);
   flex: 1;
   padding: 0 10px;
   &::placeholder {

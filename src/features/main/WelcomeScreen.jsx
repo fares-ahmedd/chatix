@@ -9,10 +9,14 @@ const Container = styled.div`
   justify-content: center;
   flex-direction: column;
   gap: 10px;
+  background-color: var(--background);
 `;
 const Img = styled.img`
   width: 100px;
   height: 100px;
+`;
+const H4 = styled.h4`
+  color: var(--text-color-500);
 `;
 
 function WelcomeScreen() {
@@ -24,7 +28,7 @@ function WelcomeScreen() {
     <Container>
       <Img src={Logo} alt="LOGO" />
       <h3>Welcome to Chatix</h3>
-      <h4>Chat with people from around the world.</h4>
+      <H4>Chat with people from around the world.</H4>
       <Button
         style={{ padding: "10px" }}
         onClick={() => setIsOpen((value) => !value)}

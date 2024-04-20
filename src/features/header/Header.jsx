@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { FaMoon, FaUser } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import { signOut } from "firebase/auth";
 import { auth } from "../../services/firebase";
 import { checkValidImage } from "../../utils/helpers";
 import { BsPeopleFill } from "react-icons/bs";
 import { useAuth } from "../../context/AppDataContext";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 const StyledHeader = styled.header`
   padding: 15px 5px;
@@ -58,6 +59,8 @@ const ToggleIcon = styled.span`
 
 function Header({ selectedUser }) {
   const { setIsOpen, isOpen, setIsSelected } = useAuth();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
+
   function handleLogout() {
     signOut(auth);
     setIsSelected(false);
@@ -79,11 +82,8 @@ function Header({ selectedUser }) {
         </User>
       )}
       <StyledIcons>
-        <Icon>
-          <FaMoon />
-        </Icon>
-        <Icon>
-          <FaUser />
+        <Icon onClick={toggleDarkMode}>
+          {isDarkMode ? <FaSun /> : <FaMoon />}
         </Icon>
         <Icon onClick={handleLogout}>
           <IoIosLogOut />

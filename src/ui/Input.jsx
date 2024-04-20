@@ -22,8 +22,8 @@ Group.defaultProps = {
 };
 const FormInputField = styled.input`
   background: none;
-  background-color: white;
-  color: var(--text-color-500);
+  background-color: var(--global-background);
+  color: var(--input-color-500);
   font-weight: bold;
   padding: 5px 5px 5px 15px;
   display: block;
