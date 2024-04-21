@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Login from "./pages/login/Login.jsx";
+import Signup from "./pages/signup/Signup.jsx";
 import GlobalStyles from "./styles.js";
 import Home from "./pages/Home.jsx";
 import { AuthContextProvider } from "./context/AppDataContext.jsx";

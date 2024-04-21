@@ -42,7 +42,6 @@ export default async function sendData(
           };
           await setDoc(doc(db, "users", response.user.uid), useData);
           await setDoc(doc(db, "userChats", response.user.uid), {});
-          // await updateDoc(doc(db, "users", response.user.uid, useData));
           navigate("/");
           setIsLoading(false);
         }
@@ -61,7 +60,6 @@ export default async function sendData(
         };
         await setDoc(doc(db, "users", response.user.uid), useData);
         await setDoc(doc(db, "userChats", response.user.uid), {});
-        // await updateDoc(doc(db, "users", response.user.uid, useData));
         navigate("/");
         setIsLoading(false);
       }

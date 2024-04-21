@@ -1,14 +1,14 @@
-import Input from "../ui/Input";
+import Input from "../../ui/Input";
 import { useState } from "react";
-import Main from "../ui/Main";
-import Button from "../ui/Button";
+import Main from "../../ui/Main";
+import Button from "../../ui/Button";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import InputSelectFile from "../ui/InputSelectFile";
-import Spinner from "../ui/Spinner";
+import InputSelectFile from "../../ui/InputSelectFile";
+import Spinner from "../../ui/Spinner";
 import useSignup from "./useSignup";
-import { PASSWORD_REGEX } from "../utils/regex";
-import sendData from "../services/sendData";
+import { PASSWORD_REGEX } from "../../utils/regex";
+import sendData from "../../services/sendData";
 
 const PositionButton = styled.div`
   margin: 5px auto;

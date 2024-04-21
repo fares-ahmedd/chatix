@@ -1,13 +1,11 @@
-import Input from "../ui/Input";
-import { useState } from "react";
-import Main from "../ui/Main";
-import Button from "../ui/Button";
+import Input from "../../ui/Input";
+import Main from "../../ui/Main";
+import Button from "../../ui/Button";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
-import Spinner from "../ui/Spinner";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../services/firebase";
-import { isInvalidInput } from "../utils/helpers";
+import { Link } from "react-router-dom";
+import Spinner from "../../ui/Spinner";
+import { isInvalidInput } from "../../utils/helpers";
+import useLogin from "./useLogin";
 
 const PositionButton = styled.div`
   margin: 15px auto;
@@ -37,36 +35,11 @@ const ErrorMessage = styled.p`
   border-radius: 5px;
 `;
 function Login() {
-  const [{ email, password }, setValues] = useState({
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  function handleChange(target, value) {
-    setValues((prevData) => ({ ...prevData, [target]: value }));
-    setError(false);
-  }
-  async function handleSubmit(e) {
-    e.preventDefault();
-    try {
-      setIsLoading(true);
-      if (!email || !password) {
-        setError(undefined);
-        return;
-      }
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
-    } catch (_) {
-      setError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const { error, isLoading, email, password, handleChange, handleLogin } =
+    useLogin();
   return (
     <Main title={"Please login to your account"}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogin}>
         <Input
           label={"Your Email"}
           autoComplete={"new-email"}

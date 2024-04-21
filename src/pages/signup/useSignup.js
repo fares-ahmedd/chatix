@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from "../utils/regex";
+import { MAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from "../../utils/regex";
 
 const initialState = {
   isEditingName: false,
