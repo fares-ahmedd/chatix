@@ -65,8 +65,7 @@ function Sidebar({ setSelectedUser }) {
   const [activeUser, setActiveUser] = useState(null);
 
   const [usersList, setUsersList] = useState([]);
-  const { currentUser, isOpen, setIsOpen, setIsSelected, idRef, selectedUser } =
-    useAuth();
+  const { currentUser, isOpen, dispatch, idRef, selectedUser } = useAuth();
   const { displayName, photoURL, uid } = currentUser;
   const filteredUsers = usersList.filter((user) =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -129,8 +128,7 @@ function Sidebar({ setSelectedUser }) {
           [combinedId + ".date"]: serverTimestamp(),
         });
       }
-      setIsSelected(true);
-      setIsOpen(false);
+      dispatch({ type: "isSelected" });
       setActiveUser(user.uid);
     } catch (error) {
       console.log(error.message);

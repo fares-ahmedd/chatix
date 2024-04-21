@@ -20,7 +20,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background-color: var(--background);
   animation: ${FadeIn} 0.8s ease-in-out;
 `;
 
@@ -45,6 +45,7 @@ const Description = styled.p`
   margin-bottom: 2rem;
   animation: ${FadeIn} 1s ease-in-out 0.6s;
   animation-fill-mode: both;
+  text-align: center;
 `;
 
 function NotFoundPage() {

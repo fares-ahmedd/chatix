@@ -78,8 +78,7 @@ function Chat() {
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
   const formRef = useRef(null);
-  const { currentUser } = useAuth();
-  const { isOpen, idRef } = useAuth();
+  const { isOpen, idRef, currentUser } = useAuth();
   const combinedId = idRef.current;
   useEffect(() => {
     const timer = setTimeout(() => {

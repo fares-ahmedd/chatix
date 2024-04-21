@@ -58,18 +58,20 @@ const ToggleIcon = styled.span`
 `;
 
 function Header({ selectedUser }) {
-  const { setIsOpen, isOpen, setIsSelected } = useAuth();
+  const { dispatch, isOpen } = useAuth();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   function handleLogout() {
     signOut(auth);
-    setIsSelected(false);
-    setIsOpen(false);
+    dispatch({ type: "isOpen/logout" });
+  }
+  function handleToggleIsOpen() {
+    dispatch({ type: "isOpen/toggle" });
   }
   return (
     <StyledHeader>
       <ToggleIcon
-        onClick={() => setIsOpen((value) => !value)}
+        onClick={handleToggleIsOpen}
         className={isOpen ? "active" : ""}
       >
         <BsPeopleFill />

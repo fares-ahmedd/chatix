@@ -1,32 +1,60 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+} from "react";
 import { auth } from "../services/firebase";
 
 const AuthContext = createContext();
 
+const initialState = {
+  currentUser: null,
+  isOpen: false,
+  isSelected: false,
+  isLoading: true,
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "auth/setCurrentUser":
+      return { ...state, currentUser: action.payload };
+    case "loaded":
+      return { ...state, isLoading: false };
+    case "isOpen/logout":
+      return { ...state, isOpen: false, isSelected: false };
+    case "isOpen/toggle":
+      return { ...state, isOpen: !state.isOpen };
+    case "isSelected":
+      return { ...state, isOpen: false, isSelected: true };
+    default:
+      return state;
+  }
+}
+
 function AuthContextProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isSelected, setIsSelected] = useState(false);
+  const [{ currentUser, isOpen, isSelected, isLoading }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
   const idRef = useRef();
   const selectedUser = useRef();
-  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      setIsLoading(false);
+      dispatch({ type: "auth/setCurrentUser", payload: user });
+      dispatch({ type: "loaded" });
     });
     return () => {
       unsub();
     };
   }, []);
-  console.log(currentUser);
   const values = {
     currentUser,
     isLoading,
-    setIsOpen,
+    dispatch,
     isOpen,
-    setIsSelected,
     isSelected,
     idRef,
     selectedUser,

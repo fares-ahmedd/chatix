@@ -20,8 +20,10 @@ const H4 = styled.h4`
 `;
 
 function WelcomeScreen() {
-  const { isSelected, setIsOpen } = useAuth();
-
+  const { isSelected, dispatch } = useAuth();
+  function handleIsOpen() {
+    dispatch({ type: "isOpen/toggle" });
+  }
   return isSelected ? (
     <Chat />
   ) : (
@@ -29,10 +31,7 @@ function WelcomeScreen() {
       <Img src={Logo} alt="LOGO" />
       <h3>Welcome to Chatix</h3>
       <H4>Chat with people from around the world.</H4>
-      <Button
-        style={{ padding: "10px" }}
-        onClick={() => setIsOpen((value) => !value)}
-      >
+      <Button style={{ padding: "10px" }} onClick={handleIsOpen}>
         Find users
       </Button>
     </Container>
