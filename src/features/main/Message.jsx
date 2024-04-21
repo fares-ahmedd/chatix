@@ -65,7 +65,7 @@ function Message({ message }) {
           <img
             src={message.image}
             alt="sendImage"
-            style={{ maxWidth: "80%", borderRadius: "10px" }}
+            style={{ maxWidth: "80%", width: "400px", borderRadius: "10px" }}
           />
         )}
       </Article>

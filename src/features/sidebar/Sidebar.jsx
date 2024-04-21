@@ -80,8 +80,8 @@ function Sidebar({ setSelectedUser }) {
 
     const usersQuery = query(
       userRef,
-      where("name", ">=", searchQuery),
-      where("name", "<", searchQuery + "\uf8ff")
+      where("name", ">=", ""),
+      where("name", "<", "\uf8ff")
     );
     const unsub = onSnapshot(usersQuery, (data) => {
       const users = [];
@@ -95,7 +95,7 @@ function Sidebar({ setSelectedUser }) {
     return () => {
       unsub();
     };
-  }, [searchQuery, uid, idRef]);
+  }, [uid, idRef]);
   async function handleSelect(user) {
     setSelectedUser(user);
     const combinedId =
@@ -153,6 +153,7 @@ function Sidebar({ setSelectedUser }) {
             fullWith={true}
             onChange={handleChange}
             value={searchQuery}
+            type={"search"}
           />
           <ul>
             {filteredUsers.length > 0 ? (

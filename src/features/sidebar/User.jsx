@@ -39,7 +39,7 @@ function User({ user, onClick, className }) {
       className={className}
     >
       <Img src={user.photoURL || unknownUser} alt="Avatar" />
-      <Span>{user.name.split(" ")[0]}...</Span>
+      <Span>{user.name}</Span>
     </Li>
   );
 }

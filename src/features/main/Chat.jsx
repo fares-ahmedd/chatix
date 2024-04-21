@@ -61,7 +61,8 @@ const InputMessage = styled.input`
   color: var(--input-color-500);
   border: 1px solid var(--text-color-900);
   flex: 1;
-  padding: 0 10px;
+  border-radius: 5px;
+  padding: 5px 10px;
   &::placeholder {
     font-size: 14px;
   }
@@ -96,6 +97,7 @@ function Chat() {
   }, [combinedId, setMessages]);
   async function handleSend(e) {
     e.preventDefault();
+    if (text.trim() === "") return;
     if (image) {
       const storageRef = ref(storage, uuid());
       const uploadTask = uploadBytesResumable(storageRef, image);
@@ -155,7 +157,7 @@ function Chat() {
           onChange={(e) => setText(e.target.value)}
           value={text}
         />
-        <StyledButton onClick={handleSend}>
+        <StyledButton onClick={handleSend} disabled={text.trim() === ""}>
           <IoSendSharp />
         </StyledButton>
       </Form>

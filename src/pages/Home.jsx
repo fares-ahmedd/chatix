@@ -7,7 +7,7 @@ import { useState } from "react";
 
 const Main = styled.main`
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
   height: 100dvh;
   &.active {
