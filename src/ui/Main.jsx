@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Logo from "../assets/logo.svg";
 const MainElement = styled.main`
   height: 100vh;
+  overflow: auto;
   display: flex;
   align-items: center;
   justify-content: center;

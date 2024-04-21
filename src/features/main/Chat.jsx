@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaImage } from "react-icons/fa";
 import { IoSendSharp } from "react-icons/io5";
 import styled from "styled-components";
@@ -54,6 +54,11 @@ const StyledButton = styled.button`
   justify-content: center;
   color: var(--input-color-500);
   background-color: transparent;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 const InputMessage = styled.input`
@@ -77,15 +82,8 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
-  const formRef = useRef(null);
-  const { isOpen, idRef, currentUser } = useAuth();
+  const { idRef, currentUser } = useAuth();
   const combinedId = idRef.current;
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      formRef.current.scrollIntoView({ block: "end" });
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [isOpen]);
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "chats", combinedId), (doc) => {
       doc.exists() && setMessages(doc.data().messages);
@@ -139,7 +137,7 @@ function Chat() {
           <Message message={message} key={message.id} />
         ))}
       </Main>
-      <Form ref={formRef}>
+      <Form>
         <Label htmlFor="send-image">
           <InputFile
             type="file"

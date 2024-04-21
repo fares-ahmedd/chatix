@@ -40,11 +40,18 @@ const Article = styled.article`
     top: -24px;
   }
 `;
+const ImageContainer = styled.div`
+  height: 400px;
+  width: 400px;
+  border-radius: 10px;
+`;
+const StyleSendImg = styled.img`
+  width: 100%;
+`;
 
 function Message({ message }) {
   const { currentUser, selectedUser } = useAuth();
   console.log(message);
-
   const time = getTime(message.date.seconds, message.date.nanoseconds);
   return (
     <MessageStyled className={message.senderId === currentUser.uid && "owner"}>
@@ -62,11 +69,9 @@ function Message({ message }) {
       <Article>
         <p>{message.text}</p>
         {message.image && (
-          <img
-            src={message.image}
-            alt="sendImage"
-            style={{ maxWidth: "80%", width: "400px", borderRadius: "10px" }}
-          />
+          <ImageContainer>
+            <StyleSendImg src={message.image} alt="sendImage" />
+          </ImageContainer>
         )}
       </Article>
     </MessageStyled>
