@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import UnKnownImage from "../../assets/unknownUser.jpg";
 import { useAuth } from "../../context/AppDataContext";
 import { getTime } from "../../utils/helpers";
@@ -41,17 +41,43 @@ const Article = styled.article`
   }
 `;
 const ImageContainer = styled.div`
+  position: relative;
   height: 400px;
   width: 400px;
+  max-width: 90%;
+  max-height: 90%;
   border-radius: 10px;
+  display: flex;
+  align-items: center;
 `;
 const StyleSendImg = styled.img`
   width: 100%;
+  height: 100%;
+  z-index: 999;
+`;
+const bounceAnimation = keyframes`
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+
+const Loading = styled.p`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  user-select: none;
+  transform: translate(-50%, -50%);
+  animation: ${bounceAnimation} 700ms infinite;
 `;
 
 function Message({ message }) {
   const { currentUser, selectedUser } = useAuth();
-  console.log(message);
   const time = getTime(message.date.seconds, message.date.nanoseconds);
   return (
     <MessageStyled className={message.senderId === currentUser.uid && "owner"}>
@@ -70,7 +96,8 @@ function Message({ message }) {
         <p>{message.text}</p>
         {message.image && (
           <ImageContainer>
-            <StyleSendImg src={message.image} alt="sendImage" />
+            <Loading>Loading Image</Loading>
+            <StyleSendImg src={message.image} alt="sendImage" loading="lazy" />
           </ImageContainer>
         )}
       </Article>

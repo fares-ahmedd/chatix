@@ -9,7 +9,7 @@ const Group = styled.div`
   position: relative;
   margin: 15px auto;
   ${(props) =>
-    props.fullWith
+    props.className === "fullWidth"
       ? css`
           width: 100%;
         `
@@ -17,9 +17,7 @@ const Group = styled.div`
           width: 70%;
         `}
 `;
-Group.defaultProps = {
-  fullWith: false,
-};
+
 const FormInputField = styled.input`
   background: none;
   background-color: var(--global-background);
@@ -59,18 +57,21 @@ const FormInputLabel = styled.label`
   transition: 300ms ease all;
 
   ${(props) =>
-    props.shrink &&
+    props.className === "shrink" &&
     css`
       ${shrinkLabel}
     `}
 `;
 
-const Input = ({ label, id, fullWith, autoComplete, ...otherProps }) => {
+const Input = ({ label, id, fullWidth, autoComplete, ...otherProps }) => {
   return (
-    <Group fullWith={fullWith}>
+    <Group className={fullWidth ? "fullWidth" : ""}>
       <FormInputField id={id} autoComplete={autoComplete} {...otherProps} />
       {label && (
-        <FormInputLabel htmlFor={id} shrink={otherProps.value?.length > 0}>
+        <FormInputLabel
+          htmlFor={id}
+          className={otherProps.value?.length > 0 ? "shrink" : ""}
+        >
           {label}
         </FormInputLabel>
       )}

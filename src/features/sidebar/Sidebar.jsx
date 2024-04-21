@@ -63,7 +63,6 @@ const Container = styled.section`
 function Sidebar({ setSelectedUser }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeUser, setActiveUser] = useState(null);
-
   const [usersList, setUsersList] = useState([]);
   const { currentUser, isOpen, dispatch, idRef, selectedUser } = useAuth();
   const { displayName, photoURL, uid } = currentUser;
@@ -103,7 +102,6 @@ function Sidebar({ setSelectedUser }) {
         : user.uid + currentUser.uid;
     idRef.current = combinedId;
     selectedUser.current = user;
-    console.log(selectedUser.current);
     try {
       const response = await getDoc(doc(db, "chats", combinedId));
       if (!response.exists()) {
@@ -148,7 +146,7 @@ function Sidebar({ setSelectedUser }) {
           <Input
             label={"Search User"}
             id={"password"}
-            fullWith={true}
+            fullWidth={true}
             onChange={handleChange}
             value={searchQuery}
             type={"search"}
