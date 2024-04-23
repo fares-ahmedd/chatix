@@ -17,10 +17,17 @@ function useLogin() {
   }
   async function handleLogin(e) {
     e.preventDefault();
+    const hasUppercaseLetters = /[A-Z]/.test(email);
+
     try {
       setIsLoading(true);
       if (!email || !password) {
         setError(undefined);
+        return;
+      }
+      if (hasUppercaseLetters) {
+        setError(true);
+        setValues(initialState);
         return;
       }
       await signInWithEmailAndPassword(auth, email, password);
