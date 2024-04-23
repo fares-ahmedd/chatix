@@ -1,15 +1,9 @@
 import styled from "styled-components";
 import unknownUser from "../../assets/unknownUser.jpg";
+import LazyLoadingLogo from "../../ui/LazyLoadingLogo";
 
 const Span = styled.span`
   flex: 1;
-`;
-const Img = styled.img`
-  width: 50px;
-  height: 50px;
-  display: block;
-  margin: auto;
-  border-radius: 50%;
 `;
 
 const Li = styled.li`
@@ -38,7 +32,9 @@ function User({ user, onClick, className }) {
       onClick={onClick}
       className={className}
     >
-      <Img src={user.photoURL || unknownUser} alt="Avatar" />
+      <LazyLoadingLogo isSrc={user.photoURL || unknownUser} dimensions="50px" />
+
+      {/* <Img src={} alt="Avatar" /> */}
       <Span>{user.name}</Span>
     </Li>
   );

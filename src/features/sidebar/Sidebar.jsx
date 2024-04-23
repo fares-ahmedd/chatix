@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Logo from "../../assets/logo.svg";
 import Input from "../../ui/Input";
 import { useAuth } from "../../context/AppDataContext";
 import { checkValidImage } from "../../utils/helpers";
@@ -17,6 +16,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import User from "./User";
+import LazyLoadingLogo from "../../ui/LazyLoadingLogo";
 
 const StyledSidebar = styled.aside`
   grid-row: 1 / -1;
@@ -24,14 +24,6 @@ const StyledSidebar = styled.aside`
   background-color: var(--global-background);
   text-align: center;
   overflow: auto;
-`;
-
-const Img = styled.img`
-  width: 50px;
-  height: 50px;
-  display: block;
-  margin: auto;
-  border-radius: 50%;
 `;
 
 const Hr = styled.hr`
@@ -136,9 +128,12 @@ function Sidebar({ setSelectedUser }) {
     isOpen && (
       <StyledSidebar>
         <Info>
-          <Img src={Logo} alt="Logo" />
+          <LazyLoadingLogo dimensions="100px" />
           <h2>Welcome</h2>
-          <Img src={checkValidImage(photoURL)} alt="Avatar" />
+          <LazyLoadingLogo
+            isSrc={checkValidImage(photoURL)}
+            dimensions="50px"
+          />
           <H5>{displayName}</H5>
         </Info>
         <Hr />

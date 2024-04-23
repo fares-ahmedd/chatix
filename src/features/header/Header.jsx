@@ -7,6 +7,7 @@ import { checkValidImage } from "../../utils/helpers";
 import { BsPeopleFill } from "react-icons/bs";
 import { useAuth } from "../../context/AppDataContext";
 import { useDarkMode } from "../../context/DarkModeContext";
+import LazyLoadingLogo from "../../ui/LazyLoadingLogo";
 
 const StyledHeader = styled.header`
   padding: 15px 5px;
@@ -16,11 +17,7 @@ const StyledHeader = styled.header`
   align-items: center;
   justify-content: space-between;
 `;
-const Img = styled.img`
-  width: 50px;
-  display: block;
-  border-radius: 50%;
-`;
+
 const User = styled.div`
   display: flex;
   align-items: center;
@@ -79,7 +76,11 @@ function Header({ selectedUser }) {
       {selectedUser && (
         <User>
           <p>talking to:</p>
-          <Img src={checkValidImage(selectedUser.photoURL)} alt={"Avatar"} />
+          <LazyLoadingLogo
+            isSrc={checkValidImage(selectedUser.photoURL)}
+            dimensions="50px"
+          />
+
           <h5>{selectedUser.name}</h5>
         </User>
       )}

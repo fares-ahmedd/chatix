@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useAuth } from "../../context/AppDataContext";
-import Logo from "../../assets/logo.svg";
 import Button from "../../ui/Button";
 import Chat from "./Chat";
+import LazyLoadingLogo from "../../ui/LazyLoadingLogo";
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -11,10 +11,7 @@ const Container = styled.div`
   gap: 10px;
   background-color: var(--background);
 `;
-const Img = styled.img`
-  width: 100px;
-  height: 100px;
-`;
+
 const H4 = styled.h4`
   color: var(--text-color-500);
 `;
@@ -28,7 +25,7 @@ function WelcomeScreen() {
     <Chat />
   ) : (
     <Container>
-      <Img src={Logo} alt="LOGO" />
+      <LazyLoadingLogo isAuto={false} />
       <h3>Welcome to Chatix</h3>
       <H4>Chat with people from around the world.</H4>
       <Button style={{ padding: "10px" }} onClick={handleIsOpen}>

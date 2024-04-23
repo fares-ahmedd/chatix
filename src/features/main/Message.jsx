@@ -2,11 +2,8 @@ import styled, { keyframes } from "styled-components";
 import UnKnownImage from "../../assets/unknownUser.jpg";
 import { useAuth } from "../../context/AppDataContext";
 import { getTime } from "../../utils/helpers";
+import LazyLoadingLogo from "../../ui/LazyLoadingLogo";
 
-const Img = styled.img`
-  width: 40px;
-  border-radius: 50%;
-`;
 const Section = styled.section`
   display: flex;
   flex-direction: column;
@@ -82,13 +79,13 @@ function Message({ message }) {
   return (
     <MessageStyled className={message.senderId === currentUser.uid && "owner"}>
       <Section>
-        <Img
-          src={
+        <LazyLoadingLogo
+          isSrc={
             message.senderId === currentUser.uid
               ? currentUser.photoURL || UnKnownImage
               : selectedUser.current.photoURL || UnKnownImage
           }
-          alt="Message Logo"
+          dimensions="50px"
         />
         <Time>{time}</Time>
       </Section>

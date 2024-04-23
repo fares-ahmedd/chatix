@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Logo from "../assets/logo.svg";
+import LazyLoadingLogo from "./LazyLoadingLogo";
 const MainElement = styled.main`
   height: 100vh;
   overflow: auto;
@@ -20,11 +20,7 @@ const Section = styled.section`
     width: 90%;
   }
 `;
-const Img = styled.img`
-  width: 150px;
-  display: block;
-  margin: auto;
-`;
+
 const P = styled.p`
   color: var(--text-color-900);
   text-align: center;
@@ -38,7 +34,7 @@ function Main({ children, title }) {
   return (
     <MainElement>
       <Section>
-        <Img src={Logo} alt="Logo" />
+        <LazyLoadingLogo />
         <H2>Welcome To Chatix</H2>
         <P>{title}</P>
         {children}
