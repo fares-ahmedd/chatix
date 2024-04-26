@@ -42,3 +42,14 @@ To create a production build:
 ```sh
 npm run build
 ```
+## App User Experience 
+(note) If your internet speed is slow, please be patient as the GIF may take some time to download
+<div align="center">
+  <img src="https://github.com/fares-ahmedd/chatix/assets/110955622/6a48b0de-99bc-4d17-9212-fbef53c4ddb6"  alt="App user experience">
+</div>
+
+---
+
+<div align="center">
+  <img src="https://github.com/fares-ahmedd/chatix/assets/110955622/ed13e769-fcdf-441e-90f3-30eb1effb8b0"  alt="App user experience">
+</div>
