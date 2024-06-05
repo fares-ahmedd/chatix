@@ -2,21 +2,11 @@ import styled from "styled-components";
 import Input from "../../ui/Input";
 import { useAuth } from "../../context/AppDataContext";
 import { checkValidImage } from "../../utils/helpers";
-import { useEffect, useState } from "react";
-import {
-  collection,
-  doc,
-  getDoc,
-  onSnapshot,
-  query,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { db } from "../../services/firebase";
+import { useState } from "react";
 import User from "./User";
 import LazyLoadingLogo from "../../ui/LazyLoadingLogo";
+import useUsersList from "./useUsersList";
+import createChat from "../../services/createChat";
 
 const StyledSidebar = styled.aside`
   grid-row: 1 / -1;
@@ -55,37 +45,18 @@ const Container = styled.section`
 function Sidebar({ setSelectedUser }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeUser, setActiveUser] = useState(null);
-  const [usersList, setUsersList] = useState([]);
   const { currentUser, isOpen, dispatch, idRef, selectedUser } = useAuth();
   const { displayName, photoURL, uid } = currentUser;
+  const usersList = useUsersList({ uid, idRef });
+
   const filteredUsers = usersList.filter((user) =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
   function handleChange(e) {
     setSearchQuery(e.target.value);
   }
 
-  useEffect(() => {
-    const userRef = collection(db, "users");
-
-    const usersQuery = query(
-      userRef,
-      where("name", ">=", ""),
-      where("name", "<", "\uf8ff")
-    );
-    const unsub = onSnapshot(usersQuery, (data) => {
-      const users = [];
-      data.forEach((userData) => {
-        if (userData.data().uid !== uid) {
-          users.push(userData.data());
-        }
-      });
-      setUsersList(users);
-    });
-    return () => {
-      unsub();
-    };
-  }, [uid, idRef]);
   async function handleSelect(user) {
     setSelectedUser(user);
     const combinedId =
@@ -95,29 +66,7 @@ function Sidebar({ setSelectedUser }) {
     idRef.current = combinedId;
     selectedUser.current = user;
     try {
-      const response = await getDoc(doc(db, "chats", combinedId));
-      if (!response.exists()) {
-        // todo: create a chat in chats collection
-        await setDoc(doc(db, "chats", combinedId), { messages: [] });
-
-        // todo: create user chats
-        await updateDoc(doc(db, "userChats", currentUser.uid), {
-          [`${combinedId}.userInfo`]: {
-            uid: user.uid,
-            name: user.name,
-            photoURL: user.photoURL,
-          },
-          [combinedId + ".date"]: serverTimestamp(),
-        });
-        await updateDoc(doc(db, "userChats", user.uid), {
-          [combinedId + ".userInfo"]: {
-            uid: currentUser.uid,
-            name: currentUser.displayName,
-            photoURL: currentUser.photoURL,
-          },
-          [combinedId + ".date"]: serverTimestamp(),
-        });
-      }
+      await createChat({ combinedId, currentUser, user });
       dispatch({ type: "isSelected" });
       setActiveUser(user.uid);
     } catch (error) {
@@ -157,9 +106,7 @@ function Sidebar({ setSelectedUser }) {
                 />
               ))
             ) : (
-              <NoResultsMessage>
-                No users match the search query.
-              </NoResultsMessage>
+              <NoResultsMessage>No users Found !</NoResultsMessage>
             )}
           </ul>
         </Container>

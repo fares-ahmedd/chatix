@@ -53,6 +53,11 @@ const ToggleIcon = styled.span`
     color: var(--color-brand-50);
   }
 `;
+const PersonName = styled.h5`
+  font-size: 22px;
+  text-shadow: 1px 1px 3px #9e9e9e;
+  text-transform: capitalize;
+`;
 
 function Header({ selectedUser }) {
   const { dispatch, isOpen } = useAuth();
@@ -81,7 +86,7 @@ function Header({ selectedUser }) {
             dimensions="50px"
           />
 
-          <h5>{selectedUser.name}</h5>
+          <PersonName>{selectedUser.name}</PersonName>
         </User>
       )}
       <StyledIcons>
