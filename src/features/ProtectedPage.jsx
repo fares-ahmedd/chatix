@@ -6,7 +6,6 @@ function ProtectedPage() {
   const { currentUser, isLoading } = useAuth();
 
   const location = useLocation();
-
   if (isLoading) return <Loader />;
 
   return (

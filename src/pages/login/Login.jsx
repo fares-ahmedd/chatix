@@ -2,10 +2,13 @@ import Input from "../../ui/Input";
 import Main from "../../ui/Main";
 import Button from "../../ui/Button";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
 import { isInvalidInput } from "../../utils/helpers";
 import useLogin from "./useLogin";
+import { useAuth } from "../../context/AppDataContext";
+import Loader from "../../ui/LoadingSpinner";
+import { useEffect } from "react";
 
 const PositionButton = styled.div`
   margin: 15px auto;
@@ -37,6 +40,12 @@ const ErrorMessage = styled.p`
 function Login() {
   const { error, isLoading, email, password, handleChange, handleLogin } =
     useLogin();
+  const { currentUser, isLoading: isLogging } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (currentUser?.accessToken && !isLogging) navigate("/");
+  }, [navigate, isLogging, currentUser?.accessToken]);
+  if (isLogging) return <Loader />;
   return (
     <Main title={"Please login to your account"}>
       <form onSubmit={handleLogin}>
