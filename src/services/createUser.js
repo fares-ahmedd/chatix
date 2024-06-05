@@ -9,8 +9,8 @@ export async function createUser(auth, email, password) {
     );
     // const user = userCredential.user;
     return userCredential;
-  } catch (_) {
+  } catch (error) {
+    console.log(error.message);
     return null;
-    // Handle error here
   }
 }

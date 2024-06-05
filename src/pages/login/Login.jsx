@@ -55,7 +55,6 @@ function Login() {
     if (currentUser?.accessToken && !isLogging) navigate("/");
   }, [navigate, isLogging, currentUser?.accessToken]);
   useEffect(() => {
-    console.log(emailInputRef.current);
     if (emailInputRef.current) emailInputRef.current.focus();
   }, [emailInputRef, isLogging]);
 

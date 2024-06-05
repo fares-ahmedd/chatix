@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Login from "./pages/login/Login.jsx";
-import Signup from "./pages/signup/Signup.jsx";
+import SignUp from "./pages/signup/Signup.jsx";
 import GlobalStyles from "./styles.js";
 import Home from "./pages/Home.jsx";
 import { AuthContextProvider } from "./context/AppDataContext.jsx";
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
-    element: <Signup />,
+    element: <SignUp />,
   },
   { path: "*", element: <NotFoundPage /> },
 ]);

@@ -1,5 +1,5 @@
 import Input from "../../ui/Input";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Main from "../../ui/Main";
 import Button from "../../ui/Button";
 import styled from "styled-components";
@@ -48,11 +48,12 @@ const initialValues = {
   password: "",
   file: "",
 };
-function Login() {
+function SignUp() {
   // todo : hooks
   const [{ name, email, password, file }, setValues] = useState(initialValues);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const inputRef = useRef(null);
   const { setEditsValues, invalidEmail, invalidName, invalidPassword } =
     useSignup({ name, email, password });
   const navigate = useNavigate();
@@ -77,6 +78,10 @@ function Login() {
     sendData(email, password, name, file, setError, setIsLoading, navigate);
     setIsLoading(true);
   }
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  }, [inputRef, isLoading]);
+
   return (
     <Main title={"Create a new account"}>
       <form onSubmit={handleSubmit} autoComplete="off">
@@ -90,6 +95,7 @@ function Login() {
           onChange={(e) => handleChange("name", e.target.value)}
           onBlur={() => handleBlur("isEditingName")}
           className={invalidName ? "invalid" : ""}
+          refInput={inputRef}
         />
         <Input
           label={"Enter Your Email"}
@@ -140,4 +146,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;
