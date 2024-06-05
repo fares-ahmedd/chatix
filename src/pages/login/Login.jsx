@@ -36,15 +36,29 @@ const ErrorMessage = styled.p`
   margin: auto;
   padding: 7px;
   border-radius: 5px;
+  border-right: 5px solid red;
 `;
 function Login() {
-  const { error, isLoading, email, password, handleChange, handleLogin } =
-    useLogin();
+  const {
+    error,
+    isLoading,
+    email,
+    password,
+    handleChange,
+    handleLogin,
+    passwordInputRef,
+    emailInputRef,
+  } = useLogin();
   const { currentUser, isLoading: isLogging } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
     if (currentUser?.accessToken && !isLogging) navigate("/");
   }, [navigate, isLogging, currentUser?.accessToken]);
+  useEffect(() => {
+    console.log(emailInputRef.current);
+    if (emailInputRef.current) emailInputRef.current.focus();
+  }, [emailInputRef, isLogging]);
+
   if (isLogging) return <Loader />;
   return (
     <Main title={"Please login to your account"}>
@@ -56,6 +70,7 @@ function Login() {
           value={email}
           onChange={(e) => handleChange("email", e.target.value)}
           className={isInvalidInput(error)}
+          refInput={emailInputRef}
         />
         <Input
           label={"Your Password"}
@@ -65,6 +80,7 @@ function Login() {
           type={"password"}
           onChange={(e) => handleChange("password", e.target.value)}
           className={isInvalidInput(error)}
+          refInput={passwordInputRef}
         />
         {error && (
           <ErrorMessage>

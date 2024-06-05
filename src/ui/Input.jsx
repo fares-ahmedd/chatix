@@ -63,10 +63,22 @@ const FormInputLabel = styled.label`
     `}
 `;
 
-const Input = ({ label, id, fullWidth, autoComplete, ...otherProps }) => {
+const Input = ({
+  label,
+  id,
+  fullWidth,
+  autoComplete,
+  refInput,
+  ...otherProps
+}) => {
   return (
     <Group className={fullWidth ? "fullWidth" : ""}>
-      <FormInputField id={id} autoComplete={autoComplete} {...otherProps} />
+      <FormInputField
+        id={id}
+        autoComplete={autoComplete}
+        ref={refInput}
+        {...otherProps}
+      />
       {label && (
         <FormInputLabel
           htmlFor={id}
