@@ -4,16 +4,9 @@ import { IoSendSharp } from "react-icons/io5";
 import styled from "styled-components";
 import { useAuth } from "../../context/AppDataContext";
 import Message from "./Message";
-import {
-  Timestamp,
-  arrayUnion,
-  doc,
-  onSnapshot,
-  updateDoc,
-} from "firebase/firestore";
-import { db, storage } from "../../services/firebase";
-import { v4 as uuid } from "uuid";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../services/firebase";
+import sendMessage from "../../services/sendMessage";
 
 const Section = styled.section`
   display: flex;
@@ -75,7 +68,7 @@ const InputMessage = styled.input`
 
 const StyledUploadImage = styled.span`
   font-size: 13px;
-  color: #075f07;
+  color: var(--input-color-500);
 `;
 
 function Chat() {
@@ -85,11 +78,7 @@ function Chat() {
   const formRef = useRef(null);
   const { idRef, currentUser } = useAuth();
   const combinedId = idRef.current;
-  useEffect(() => {
-    if (formRef.current) {
-      formRef.current.scrollIntoView({ block: "end" });
-    }
-  }, [messages]);
+
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "chats", combinedId), (doc) => {
       doc.exists() && setMessages(doc.data().messages);
@@ -98,43 +87,22 @@ function Chat() {
       unSub();
     };
   }, [combinedId, setMessages]);
+  useEffect(() => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ block: "end" });
+    }
+  }, [messages]);
   async function handleSend(e) {
     e.preventDefault();
-    if (text.trim() === "") return;
-    if (image) {
-      const storageRef = ref(storage, uuid());
-      const uploadTask = uploadBytesResumable(storageRef, image);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {},
-        (error) => {
-          console.log(error);
-        },
-        async () => {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          await updateDoc(doc(db, "chats", idRef.current), {
-            messages: arrayUnion({
-              id: uuid(),
-              text,
-              senderId: currentUser.uid,
-              date: Timestamp.now(),
-              image: downloadURL,
-            }),
-          });
-        }
-      );
-    } else {
-      await updateDoc(doc(db, "chats", idRef.current), {
-        messages: arrayUnion({
-          id: uuid(),
-          text,
-          senderId: currentUser.uid,
-          date: Timestamp.now(),
-        }),
-      });
+    if (text.trim() === "" && !image) return;
+    try {
+      await sendMessage({ image, idRef, currentUser, text });
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setText("");
+      setImage(null);
     }
-    setText("");
-    setImage(null);
   }
   return (
     <Section>
@@ -160,7 +128,10 @@ function Chat() {
           onChange={(e) => setText(e.target.value)}
           value={text}
         />
-        <StyledButton onClick={handleSend} disabled={text.trim() === ""}>
+        <StyledButton
+          onClick={handleSend}
+          disabled={text.trim() === "" && !image}
+        >
           <IoSendSharp />
         </StyledButton>
       </Form>

@@ -11,6 +11,7 @@ const GlobalStyles = createGlobalStyle`
       --global-background: #f9fafb;
       --global-background-500: #f0f2f5;
       --background: white;
+      --background-sender-message: #646764
     }
 
     &.dark-mode {
@@ -21,6 +22,8 @@ const GlobalStyles = createGlobalStyle`
       --global-background: #2d2d2d;
       --global-background-500: #383f44;
       --background: #323333;
+      --background-sender-message: #005C4B
+
     }
 
     --color-brand-50: #eef2ff;

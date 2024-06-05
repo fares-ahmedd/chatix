@@ -20,6 +20,14 @@ const MessageStyled = styled.div`
   &.owner {
     direction: rtl;
   }
+  &.owner article {
+    background-color: var(--background-sender-message);
+    color: white;
+  }
+  &.owner article::before {
+    border-color: transparent transparent var(--background-sender-message)
+      transparent;
+  }
 `;
 const Article = styled.article`
   padding: 10px;
