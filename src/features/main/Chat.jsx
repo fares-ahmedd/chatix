@@ -7,6 +7,8 @@ import Message from "./Message";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import sendMessage from "../../services/sendMessage";
+import Emojis from "../../ui/Emojis";
+import { emojisArray } from "../../utils/emojisArray";
 
 const Section = styled.section`
   display: flex;
@@ -65,6 +67,15 @@ const InputMessage = styled.input`
     font-size: 14px;
   }
 `;
+const ButtonsGroup = styled.section`
+  display: flex;
+  align-items: center;
+  gap: 7px;
+`;
+const Emoji = styled.span`
+  font-size: 25px;
+  cursor: pointer;
+`;
 
 const StyledUploadImage = styled.span`
   font-size: 13px;
@@ -73,12 +84,13 @@ const StyledUploadImage = styled.span`
 
 function Chat() {
   const [messages, setMessages] = useState([]);
+
   const [text, setText] = useState("");
+
   const [image, setImage] = useState(null);
   const formRef = useRef(null);
   const { idRef, currentUser } = useAuth();
   const combinedId = idRef.current;
-
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "chats", combinedId), (doc) => {
       doc.exists() && setMessages(doc.data().messages);
@@ -124,16 +136,33 @@ function Chat() {
         </Label>
         <InputMessage
           type="text"
-          placeholder="Type a message here"
+          placeholder="type a message here"
           onChange={(e) => setText(e.target.value)}
           value={text}
         />
-        <StyledButton
-          onClick={handleSend}
-          disabled={text.trim() === "" && !image}
-        >
-          <IoSendSharp />
-        </StyledButton>
+        <ButtonsGroup>
+          <Emojis>
+            <Emojis.Toggle id={"emoji"} />
+            <Emojis.List id={"emoji"}>
+              {emojisArray.map((emoji) => (
+                <Emoji
+                  key={emoji.title}
+                  title={emoji.title}
+                  role="button"
+                  onClick={() => setText((prev) => (prev += emoji.emoji))}
+                >
+                  {emoji.emoji}
+                </Emoji>
+              ))}
+            </Emojis.List>
+          </Emojis>
+          <StyledButton
+            onClick={handleSend}
+            disabled={text.trim() === "" && !image}
+          >
+            <IoSendSharp />
+          </StyledButton>
+        </ButtonsGroup>
       </Form>
     </Section>
   );
