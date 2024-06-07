@@ -1,12 +1,16 @@
+import { lazy, Suspense } from "react";
+
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Login from "./pages/login/Login.jsx";
-import SignUp from "./pages/signup/Signup.jsx";
 import GlobalStyles from "./styles.js";
-import Home from "./pages/Home.jsx";
 import { AuthContextProvider } from "./context/AppDataContext.jsx";
-import ProtectedPage from "./features/ProtectedPage.jsx";
 import NotFoundPage from "./ui/PageNotFound.jsx";
 import { DarkModeProvider } from "./context/DarkModeContext.jsx";
+import Loader from "./ui/LoadingSpinner.jsx";
+
+const Login = lazy(() => import("./pages/login/Login.jsx"));
+const SignUp = lazy(() => import("./pages/signup/Signup.jsx"));
+const Home = lazy(() => import("./pages/Home.jsx"));
+const ProtectedPage = lazy(() => import("./features/ProtectedPage.jsx"));
 
 const router = createBrowserRouter([
   {
@@ -30,7 +34,9 @@ function App() {
       <DarkModeProvider>
         <AuthContextProvider>
           <GlobalStyles />
-          <RouterProvider router={router} />
+          <Suspense fallback={<Loader />}>
+            <RouterProvider router={router} />
+          </Suspense>
         </AuthContextProvider>
       </DarkModeProvider>
     </>

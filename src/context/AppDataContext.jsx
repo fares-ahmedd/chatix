@@ -12,7 +12,7 @@ const AuthContext = createContext();
 
 const initialState = {
   currentUser: null,
-  isOpen: false,
+  isOpen: true,
   isSelected: false,
   isLoading: true,
 };

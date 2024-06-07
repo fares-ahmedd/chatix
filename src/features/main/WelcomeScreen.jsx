@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { useAuth } from "../../context/AppDataContext";
 import Button from "../../ui/Button";
-import Chat from "./Chat";
 import LazyLoadingLogo from "../../ui/LazyLoadingLogo";
+import { lazy, Suspense } from "react";
+import Loader from "../../ui/LoadingSpinner";
+const Chat = lazy(() => import("./Chat"));
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -22,7 +24,9 @@ function WelcomeScreen() {
     dispatch({ type: "isOpen/toggle" });
   }
   return isSelected ? (
-    <Chat />
+    <Suspense fallback={<Loader />}>
+      <Chat />
+    </Suspense>
   ) : (
     <Container>
       <LazyLoadingLogo isAuto={false} />
