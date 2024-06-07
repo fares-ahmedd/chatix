@@ -11,10 +11,13 @@
 ---
 <a href="https://chatvia-khaled-app.vercel.app/">
 <div align="center">
-<img alt="Chatix app" width="950" src="https://github.com/fares-ahmedd/chatix/assets/110955622/0f9989d3-4fff-4e30-93c4-2f20e7262e9f"/>
+<img alt="Chatix app dark mode" width="950" src="https://github.com/fares-ahmedd/chatix/assets/110955622/f62458ff-2798-402f-b9be-66aca074aadd"/>
 </div>
 <div align="center" >
-<img alt="Chatix app dark mode" width="950" src="https://github.com/fares-ahmedd/chatix/assets/110955622/7c0f8db0-f5fe-4fc9-af71-248cb68a3b27"/>
+<img alt="Chatix app " width="950" src="https://github.com/fares-ahmedd/chatix/assets/110955622/bc0e0db6-d679-43fb-90e8-4d319b0511fa"/>
+</div>
+<div align="center" >
+<img alt="Chatix app " width="950" src="https://github.com/fares-ahmedd/chatix/assets/110955622/514903be-ef46-4add-b08c-feb1bb6eef86"/>
 </div>
 </a>
 
