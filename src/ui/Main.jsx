@@ -1,23 +1,29 @@
 import styled from "styled-components";
 import LazyLoadingLogo from "./LazyLoadingLogo";
 const MainElement = styled.main`
-  height: 100vh;
+  min-height: 100vh;
   overflow: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--global-background);
+  padding: 10px 0;
 `;
 const Section = styled.section`
   padding: 15px;
   background-color: var(--background);
+
   border-radius: 10px;
-  width: 60%;
+  width: 90%;
+  max-width: 500px;
   overflow: auto;
-  box-shadow: var(--border-color) 0px 1px 2px 0px,
-    var(--border-color) 0px 1px 3px 1px;
+  transition: all 0.5s;
   @media (max-width: 768px) {
     width: 90%;
+  }
+  &:hover {
+    box-shadow: var(--border-color) 0px 1px 2px 0px,
+      var(--border-color) 0px 1px 3px 1px;
   }
 `;
 

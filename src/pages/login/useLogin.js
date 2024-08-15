@@ -20,19 +20,18 @@ function useLogin() {
   async function handleLogin(e) {
     e.preventDefault();
     const hasUppercaseLetters = /[A-Z]/.test(email);
+    if (hasUppercaseLetters) {
+      setError(true);
+      return;
+    }
 
+    if (!email || !password) {
+      setError(undefined);
+      if (!email) return emailInputRef?.current.focus();
+      if (!password) return passwordInputRef?.current.focus();
+    }
     try {
       setIsLoading(true);
-      if (!email || !password) {
-        setError(undefined);
-        if (!email) return emailInputRef?.current.focus();
-        if (!password) return passwordInputRef?.current.focus();
-      }
-      if (hasUppercaseLetters) {
-        setError(true);
-        setValues(initialState);
-        return;
-      }
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/");
     } catch (_) {

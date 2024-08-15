@@ -51,11 +51,12 @@ const GlobalStyles = createGlobalStyle`
   a {
     text-decoration: none;
     color: var(--color-brand-300);
-    transition: 0.3s;
+    
   }
 
   a:hover {
     color: var(--color-brand-500);
+    text-decoration: underline;
   }
 
   body {
@@ -111,20 +112,6 @@ const GlobalStyles = createGlobalStyle`
  }
 
 
-  /* end scrollbar */
-  input[type="search"]::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  height: 1.2em;
-  width: 1.2em;
-  border-radius: 50em;
-  background: url('path/to/your/custom-icon.svg') no-repeat 50% 50%;
-  background-size: contain;
-  opacity: 0.5;
-}
-
-input[type="search"]::-webkit-search-cancel-button:hover {
-  opacity: 1;
-}
 `;
 
 export default GlobalStyles;

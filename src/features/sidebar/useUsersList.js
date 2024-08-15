@@ -2,7 +2,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../services/firebase";
 
-export default function useUsersList({ uid, idRef }) {
+export default function useUsersList({ uid, idRef, setLoading }) {
   const [usersList, setUsersList] = useState([]);
 
   useEffect(() => {
@@ -21,11 +21,12 @@ export default function useUsersList({ uid, idRef }) {
         }
       });
       setUsersList(users);
+      setLoading(false);
     });
     return () => {
       unsub();
     };
-  }, [uid, idRef]);
+  }, [uid, idRef, setLoading]);
 
   return usersList;
 }

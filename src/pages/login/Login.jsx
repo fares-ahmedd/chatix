@@ -8,7 +8,7 @@ import { isInvalidInput } from "../../utils/helpers";
 import useLogin from "./useLogin";
 import { useAuth } from "../../context/AppDataContext";
 import Loader from "../../ui/LoadingSpinner";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 const PositionButton = styled.div`
   margin: 15px auto;
@@ -19,15 +19,7 @@ const Account = styled.div`
   font-weight: 700;
   text-align: center;
 `;
-const Register = styled.span`
-  color: var(--color-brand-300);
-  cursor: pointer;
-  transition: 0.3s;
 
-  &:hover {
-    color: var(--color-brand-500);
-  }
-`;
 const ErrorMessage = styled.p`
   color: red;
   text-align: center;
@@ -51,9 +43,11 @@ function Login() {
   } = useLogin();
   const { currentUser, isLoading: isLogging } = useAuth();
   const navigate = useNavigate();
-  useEffect(() => {
+
+  useLayoutEffect(() => {
     if (currentUser?.accessToken && !isLogging) navigate("/");
   }, [navigate, isLogging, currentUser?.accessToken]);
+
   useEffect(() => {
     if (emailInputRef.current) emailInputRef.current.focus();
   }, [emailInputRef, isLogging]);
@@ -70,6 +64,8 @@ function Login() {
           onChange={(e) => handleChange("email", e.target.value)}
           className={isInvalidInput(error)}
           refInput={emailInputRef}
+          fullWidth={true}
+          required
         />
         <Input
           label={"Your Password"}
@@ -80,6 +76,8 @@ function Login() {
           onChange={(e) => handleChange("password", e.target.value)}
           className={isInvalidInput(error)}
           refInput={passwordInputRef}
+          fullWidth={true}
+          required
         />
         {error && (
           <ErrorMessage>
@@ -100,9 +98,7 @@ function Login() {
           <>
             {" "}
             <span>you don't have an account? </span>
-            <Register>
-              <Link to={"/signup"}>Register</Link>
-            </Register>
+            <Link to={"/signup"}>Register</Link>
           </>
         )}
       </Account>

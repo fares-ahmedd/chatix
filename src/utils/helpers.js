@@ -23,3 +23,17 @@ export function getTime(seconds, nanoseconds) {
 
   return timeString;
 }
+
+export function formatTime(time) {
+  const [hours, minutes, seconds] = time.split(":").map(Number);
+
+  const period = hours >= 12 ? "PM" : "AM";
+
+  const formattedHours = hours % 12 || 12;
+
+  const formattedTime = `${formattedHours}:${minutes
+    .toString()
+    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} ${period}`;
+
+  return formattedTime;
+}

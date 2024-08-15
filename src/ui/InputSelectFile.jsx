@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import { FaImage } from "react-icons/fa";
+import { FaExchangeAlt } from "react-icons/fa";
 
 const StyledInput = styled.div`
   margin: 15px auto;
-  width: 70%;
+  width: 100%;
   padding: 0 10px;
   border: 1px solid var(--text-color-700);
   border-radius: 10px;
+  position: relative;
 `;
 
 const Input = styled.input`
@@ -25,9 +27,10 @@ const Container = styled.label`
   align-items: center;
   gap: 10px;
   color: var(--text-color-900);
+  cursor: pointer;
 `;
 
-function InputSelectFile({ onChange }) {
+function InputSelectFile({ onChange, file, pickedImage }) {
   return (
     <StyledInput>
       <Input
@@ -40,7 +43,15 @@ function InputSelectFile({ onChange }) {
         <Image>
           <FaImage />
         </Image>
-        <span>Select an Image</span>
+        <span>
+          {file ? (
+            <>
+              Change Your Image <FaExchangeAlt />
+            </>
+          ) : (
+            " Select Your Image"
+          )}
+        </span>
       </Container>
     </StyledInput>
   );

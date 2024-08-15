@@ -13,7 +13,7 @@ const AuthContext = createContext();
 const initialState = {
   currentUser: null,
   isOpen: true,
-  isSelected: false,
+  isSelected: localStorage.getItem("combinedId") !== null || undefined,
   isLoading: true,
 };
 
@@ -39,8 +39,8 @@ function AuthContextProvider({ children }) {
     reducer,
     initialState
   );
-  const idRef = useRef();
-  const selectedUser = useRef();
+  const idRef = useRef(localStorage.getItem("combinedId")?.split('"').join(""));
+  const selectedUser = useRef(JSON.parse(localStorage.getItem("last-talk")));
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       dispatch({ type: "auth/setCurrentUser", payload: user });

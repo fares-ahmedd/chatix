@@ -10,7 +10,6 @@ const BackgroundStyled = styled.div`
   justify-content: center;
   align-items: center;
   background-color: var(--background);
-  backdrop-filter: blur(3px);
 `;
 
 const loaderAnimation = keyframes`
@@ -37,7 +36,7 @@ const Bar = styled.div`
   border-top-left-radius: 20px;
   box-shadow: 5px 10px 20px inset rgba(52, 152, 219, 0.8);
   animation: ${loaderAnimation} 1.2s linear infinite;
-  animation-delay: ${(props) => props.delay}s;
+  animation-delay: ${(props) => props.$delay}s;
 `;
 const Div = styled.div`
   position: relative;
@@ -48,17 +47,11 @@ function Loader() {
   return (
     <Div>
       <BackgroundStyled>
-        <Bar delay={0.1} />
-        <Bar delay={0.2} />
-        <Bar delay={0.3} />
-        <Bar delay={0.4} />
-        <Bar delay={0.5} />
-        <Bar delay={0.6} />
-        <Bar delay={0.7} />
-        <Bar delay={0.8} />
+        {Array.from({ length: 8 }, (_, index) => (
+          <Bar key={index} $delay={`0.${index + 1}`} />
+        ))}
       </BackgroundStyled>
     </Div>
   );
 }
-
 export default Loader;

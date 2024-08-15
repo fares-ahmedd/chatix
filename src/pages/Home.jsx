@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import WelcomeScreen from "../features/main/WelcomeScreen";
+import Content from "../features/main/Content";
 import Header from "../features/header/Header";
 import Sidebar from "../features/sidebar/Sidebar";
 import { useAuth } from "../context/AppDataContext";
@@ -16,14 +16,16 @@ const Main = styled.main`
 `;
 
 function Home() {
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(
+    JSON.parse(localStorage.getItem("last-talk"))
+  );
   const { isOpen } = useAuth();
 
   return (
     <Main className={!isOpen ? "active" : ""}>
       <Header selectedUser={selectedUser} />
       <Sidebar setSelectedUser={setSelectedUser} />
-      <WelcomeScreen />
+      <Content />
     </Main>
   );
 }

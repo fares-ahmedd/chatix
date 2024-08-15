@@ -24,7 +24,7 @@ export default async function sendData(
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         "state_changed",
-        (snapshot) => {},
+        () => {},
         (error) => {
           setError(error.message);
         },
@@ -34,38 +34,34 @@ export default async function sendData(
             displayName: name,
             photoURL: downloadURL,
           });
-          const useData = {
+          const userData = {
             uid: response.user.uid,
             name,
             email,
             photoURL: downloadURL,
           };
-          await setDoc(doc(db, "users", response.user.uid), useData);
+          await setDoc(doc(db, "users", response.user.uid), userData);
           await setDoc(doc(db, "userChats", response.user.uid), {});
           navigate("/");
           setIsLoading(false);
         }
       );
     } else {
-      async function updateData() {
-        await updateProfile(response.user, {
-          displayName: name,
-          photoURL: null,
-        });
-        const useData = {
-          uid: response.user.uid,
-          name,
-          email,
-          photoURL: null,
-        };
-        await setDoc(doc(db, "users", response.user.uid), useData);
-        await setDoc(doc(db, "userChats", response.user.uid), {});
-        navigate("/");
-        setIsLoading(false);
-      }
-      updateData();
+      await updateProfile(response.user, {
+        displayName: name,
+        photoURL: null,
+      });
+      const userData = {
+        uid: response.user.uid,
+        name,
+        email,
+        photoURL: null,
+      };
+      await setDoc(doc(db, "users", response.user.uid), userData);
+      await setDoc(doc(db, "userChats", response.user.uid), {});
+      navigate("/");
+      setIsLoading(false);
     }
-    setError("");
   } catch (error) {
     setError(error.message);
     setIsLoading(false);

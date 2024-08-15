@@ -1,5 +1,5 @@
 import Input from "../../ui/Input";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Main from "../../ui/Main";
 import Button from "../../ui/Button";
 import styled from "styled-components";
@@ -9,6 +9,7 @@ import Spinner from "../../ui/Spinner";
 import useSignup from "./useSignup";
 import { PASSWORD_REGEX } from "../../utils/regex";
 import sendData from "../../services/sendData";
+import { useAuth } from "../../context/AppDataContext";
 
 const PositionButton = styled.div`
   margin: 5px auto;
@@ -35,28 +36,33 @@ const ErrorMessage = styled.p`
   width: fit-content;
   margin: auto;
   padding: 7px;
+  border-radius: 10px;
 `;
-const StyledUploadImage = styled.span`
-  font-size: 13px;
-  color: #075f07;
-  text-align: center;
-  display: block;
-`;
+
 const initialValues = {
   name: "",
   email: "",
   password: "",
   file: "",
 };
+const ContainerImg = styled.div`
+  width: 200px;
+  height: 200px;
+  margin: 5px auto;
+  border-radius: 10px;
+`;
 function SignUp() {
   // todo : hooks
   const [{ name, email, password, file }, setValues] = useState(initialValues);
   const [error, setError] = useState("");
+  const [pickedImage, setPickedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef(null);
   const { setEditsValues, invalidEmail, invalidName, invalidPassword } =
     useSignup({ name, email, password });
   const navigate = useNavigate();
+  const { currentUser, isLoading: isLogging } = useAuth();
+
   // todo : vars
   const isCompleteData =
     name.trim() === "" ||
@@ -73,14 +79,34 @@ function SignUp() {
   function handleBlur(name) {
     setEditsValues((prevValue) => ({ ...prevValue, [name]: true }));
   }
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    sendData(email, password, name, file, setError, setIsLoading, navigate);
     setIsLoading(true);
+
+    sendData(email, password, name, file, setError, setIsLoading, navigate);
   }
+
   useEffect(() => {
     if (inputRef.current) inputRef.current.focus();
   }, [inputRef, isLoading]);
+
+  useLayoutEffect(() => {
+    if (currentUser?.accessToken && !isLogging) navigate("/");
+  }, [navigate, isLogging, currentUser?.accessToken]);
+
+  const handleUploadImageChange = (e) => {
+    const file = e.target.files[0];
+    setValues((prevValue) => ({
+      ...prevValue,
+      file,
+    }));
+
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPickedImage(fileReader.result);
+    };
+    fileReader.readAsDataURL(file);
+  };
 
   return (
     <Main title={"Create a new account"}>
@@ -96,6 +122,7 @@ function SignUp() {
           onBlur={() => handleBlur("isEditingName")}
           className={invalidName ? "invalid" : ""}
           refInput={inputRef}
+          fullWidth
         />
         <Input
           label={"Enter Your Email"}
@@ -106,6 +133,7 @@ function SignUp() {
           onChange={(e) => handleChange("email", e.target.value)}
           onBlur={() => handleBlur("isEditingEmail")}
           className={invalidEmail ? "invalid" : ""}
+          fullWidth
         />
         <Input
           label={"Enter Your Password"}
@@ -116,17 +144,21 @@ function SignUp() {
           onChange={(e) => handleChange("password", e.target.value)}
           onBlur={() => handleBlur("isEditingPassword")}
           className={invalidPassword ? "invalid" : ""}
+          fullWidth
         />
         <InputSelectFile
-          onChange={(e) =>
-            setValues((prevValue) => ({
-              ...prevValue,
-              file: e.target.files[0],
-            }))
-          }
+          onChange={handleUploadImageChange}
+          file={file}
+          pickedImage={pickedImage}
         />
-        {file && (
-          <StyledUploadImage>Uploaded Image successfully</StyledUploadImage>
+        {pickedImage && (
+          <ContainerImg>
+            <img
+              src={pickedImage}
+              alt="Picked Profile Img"
+              style={{ width: "100%", height: "100%", borderRadius: "10px" }}
+            />
+          </ContainerImg>
         )}
         {error && <ErrorMessage>{error}</ErrorMessage>}
 

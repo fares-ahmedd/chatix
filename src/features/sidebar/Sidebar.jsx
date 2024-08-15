@@ -14,6 +14,10 @@ const StyledSidebar = styled.aside`
   background-color: var(--global-background);
   text-align: center;
   overflow: auto;
+
+  @media (max-width: 500px) {
+    min-width: 300px;
+  }
 `;
 
 const Hr = styled.hr`
@@ -31,7 +35,7 @@ const Info = styled.section`
   padding: 5px 0;
 `;
 
-const NoResultsMessage = styled.p`
+const NoResultsMessage = styled.span`
   font-size: 14px;
   color: var(--text-color-500);
   text-align: center;
@@ -44,15 +48,18 @@ const Container = styled.section`
 
 function Sidebar({ setSelectedUser }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeUser, setActiveUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [activeUser, setActiveUser] = useState(
+    localStorage.getItem("activeUser")?.split('"').join("")
+  );
+
   const { currentUser, isOpen, dispatch, idRef, selectedUser } = useAuth();
   const { displayName, photoURL, uid } = currentUser;
-  const usersList = useUsersList({ uid, idRef });
+  const usersList = useUsersList({ uid, idRef, setLoading });
 
   const filteredUsers = usersList.filter((user) =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
   function handleChange(e) {
     setSearchQuery(e.target.value);
   }
@@ -68,6 +75,9 @@ function Sidebar({ setSelectedUser }) {
     try {
       await createChat({ combinedId, currentUser, user });
       dispatch({ type: "isSelected" });
+      localStorage.setItem("last-talk", JSON.stringify(user));
+      localStorage.setItem("combinedId", JSON.stringify(combinedId));
+      localStorage.setItem("activeUser", JSON.stringify(user.uid));
       setActiveUser(user.uid);
     } catch (error) {
       console.log(error.message);
@@ -95,20 +105,22 @@ function Sidebar({ setSelectedUser }) {
             value={searchQuery}
             type={"search"}
           />
-          <ul>
-            {filteredUsers.length > 0 ? (
-              filteredUsers.map((user) => (
+          {filteredUsers.length > 0 ? (
+            <ul>
+              {filteredUsers.map((user) => (
                 <User
                   user={user}
                   key={user.uid}
                   onClick={() => handleSelect(user)}
                   className={user.uid === activeUser ? "active" : ""}
                 />
-              ))
-            ) : (
-              <NoResultsMessage>No users Found !</NoResultsMessage>
-            )}
-          </ul>
+              ))}
+            </ul>
+          ) : loading ? (
+            <span>Loading Users...</span>
+          ) : (
+            <NoResultsMessage>No users Found !</NoResultsMessage>
+          )}
         </Container>
       </StyledSidebar>
     )

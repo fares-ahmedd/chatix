@@ -31,6 +31,7 @@ const Label = styled.label`
   align-items: center;
   font-size: 30px;
   cursor: pointer;
+  position: relative;
 `;
 
 const Main = styled.main`
@@ -69,6 +70,7 @@ const InputMessage = styled.input`
 `;
 const ButtonsGroup = styled.section`
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
   gap: 7px;
 `;
@@ -80,6 +82,13 @@ const Emoji = styled.span`
 const StyledUploadImage = styled.span`
   font-size: 13px;
   color: var(--input-color-500);
+  position: absolute;
+  top: -50px;
+  text-align: center;
+  width: 120px;
+  background-color: var(--global-background-500);
+  border-radius: 10px;
+  padding: 5px;
 `;
 
 function Chat() {
@@ -89,8 +98,10 @@ function Chat() {
 
   const [image, setImage] = useState(null);
   const formRef = useRef(null);
+  const InputRef = useRef(null);
   const { idRef, currentUser } = useAuth();
   const combinedId = idRef.current;
+
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "chats", combinedId), (doc) => {
       doc.exists() && setMessages(doc.data().messages);
@@ -99,11 +110,18 @@ function Chat() {
       unSub();
     };
   }, [combinedId, setMessages]);
+
   useEffect(() => {
     if (formRef.current) {
       formRef.current.scrollIntoView({ block: "end" });
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (InputRef.current) {
+      InputRef.current.focus();
+    }
+  }, []);
   async function handleSend(e) {
     e.preventDefault();
     if (text.trim() === "" && !image) return;
@@ -114,7 +132,13 @@ function Chat() {
     } finally {
       setText("");
       setImage(null);
+      InputRef.current.focus();
     }
+  }
+
+  function handleSelectEmoji(emj) {
+    setText((prev) => (prev += emj.emoji));
+    if (InputRef.current) InputRef.current.focus();
   }
   return (
     <Section>
@@ -123,7 +147,8 @@ function Chat() {
           <Message message={message} key={message.id} />
         ))}
       </Main>
-      <Form ref={formRef}>
+
+      <Form ref={formRef} onSubmit={handleSend}>
         <Label htmlFor="send-image">
           <InputFile
             type="file"
@@ -132,36 +157,34 @@ function Chat() {
             onChange={(e) => setImage(e.target.files[0])}
           />
           <FaImage />
-          {image && <StyledUploadImage>Uploaded image</StyledUploadImage>}
+          {image && <StyledUploadImage>Change image</StyledUploadImage>}
         </Label>
         <InputMessage
           type="text"
           placeholder="type a message here"
           onChange={(e) => setText(e.target.value)}
           value={text}
+          ref={InputRef}
         />
         <ButtonsGroup>
+          <StyledButton disabled={text.trim() === "" && !image}>
+            <IoSendSharp />
+          </StyledButton>
           <Emojis>
             <Emojis.Toggle id={"emoji"} />
             <Emojis.List id={"emoji"}>
-              {emojisArray.map((emoji) => (
+              {emojisArray.map((emj) => (
                 <Emoji
-                  key={emoji.title}
-                  title={emoji.title}
+                  key={emj.title}
+                  title={emj.title}
                   role="button"
-                  onClick={() => setText((prev) => (prev += emoji.emoji))}
+                  onClick={() => handleSelectEmoji(emj)}
                 >
-                  {emoji.emoji}
+                  {emj.emoji}
                 </Emoji>
               ))}
             </Emojis.List>
           </Emojis>
-          <StyledButton
-            onClick={handleSend}
-            disabled={text.trim() === "" && !image}
-          >
-            <IoSendSharp />
-          </StyledButton>
         </ButtonsGroup>
       </Form>
     </Section>

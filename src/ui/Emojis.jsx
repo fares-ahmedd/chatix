@@ -66,7 +66,7 @@ function Toggle({ id }) {
     });
   }
   return (
-    <StyledToggle onClick={handleClick}>
+    <StyledToggle onClick={handleClick} role="button">
       {!openId ? <MdOutlineEmojiEmotions /> : <MdEmojiEmotions />}
     </StyledToggle>
   );

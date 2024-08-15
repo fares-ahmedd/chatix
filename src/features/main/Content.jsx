@@ -18,8 +18,8 @@ const H4 = styled.h4`
   color: var(--text-color-500);
 `;
 
-function WelcomeScreen() {
-  const { isSelected, dispatch } = useAuth();
+function Content() {
+  const { isSelected, dispatch, isOpen } = useAuth();
   function handleIsOpen() {
     dispatch({ type: "isOpen/toggle" });
   }
@@ -33,10 +33,10 @@ function WelcomeScreen() {
       <h3>Welcome to Chatix</h3>
       <H4>Chat with people from around the world.</H4>
       <Button style={{ padding: "10px" }} onClick={handleIsOpen}>
-        Find users
+        {isOpen ? "Close" : "Open"}
       </Button>
     </Container>
   );
 }
 
-export default WelcomeScreen;
+export default Content;
