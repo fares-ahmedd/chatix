@@ -8,7 +8,7 @@ import { isInvalidInput } from "../../utils/helpers";
 import useLogin from "./useLogin";
 import { useAuth } from "../../context/AppDataContext";
 import Loader from "../../ui/LoadingSpinner";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 
 const PositionButton = styled.div`
   margin: 15px auto;
@@ -24,7 +24,6 @@ const ErrorMessage = styled.p`
   color: red;
   text-align: center;
   background-color: #ff000037;
-  width: 70%;
   margin: auto;
   padding: 7px;
   border-radius: 5px;
@@ -44,7 +43,7 @@ function Login() {
   const { currentUser, isLoading: isLogging } = useAuth();
   const navigate = useNavigate();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (currentUser?.accessToken && !isLogging) navigate("/");
   }, [navigate, isLogging, currentUser?.accessToken]);
 

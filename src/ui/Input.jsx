@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 const shrinkLabel = css`
   top: -14px;
   font-size: 12px;
+  color: var(--text-color-900); // Ensure sufficient contrast
 `;
 
 const Group = styled.div`
@@ -23,7 +24,7 @@ const FormInputField = styled.input`
   background-color: var(--global-background);
   color: var(--input-color-500);
   font-weight: bold;
-  padding: 5px 5px 5px 15px;
+  padding: 10px 5px 10px 15px; // Increased vertical padding for better touch targets
   display: block;
   border-radius: 10px;
   border: 1px solid var(--text-color-900);
@@ -34,6 +35,8 @@ const FormInputField = styled.input`
     border: 1px solid red;
   }
   &:focus {
+    outline: 2px solid var(--text-color-900); // Visible focus outline
+
     outline: none;
 
     & ~ label {
@@ -55,6 +58,9 @@ const FormInputLabel = styled.label`
   left: 15px;
   top: 10px;
   transition: 300ms ease all;
+  background-color: var(
+    --global-background
+  ); // Add background to prevent text overlap
 
   ${(props) =>
     props.className === "shrink" &&
@@ -77,6 +83,7 @@ const Input = ({
         id={id}
         autoComplete={autoComplete}
         ref={refInput}
+        aria-label={label}
         {...otherProps}
       />
       {label && (

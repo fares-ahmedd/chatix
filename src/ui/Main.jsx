@@ -17,14 +17,11 @@ const Section = styled.section`
   width: 90%;
   max-width: 500px;
   overflow: auto;
-  transition: all 0.5s;
   @media (max-width: 768px) {
     width: 90%;
   }
-  &:hover {
-    box-shadow: var(--border-color) 0px 1px 2px 0px,
-      var(--border-color) 0px 1px 3px 1px;
-  }
+  box-shadow: var(--border-color) 0px 1px 2px 0px,
+    var(--border-color) 0px 1px 3px 1px;
 `;
 
 const P = styled.p`

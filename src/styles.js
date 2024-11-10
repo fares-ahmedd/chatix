@@ -28,8 +28,8 @@ const GlobalStyles = createGlobalStyle`
 
     --color-brand-50: #eef2ff;
     --color-brand-100: #e0e7ff;
-    --color-brand-300: #2d959e;
-    --color-brand-500: #6fdfe9;
+    --color-brand-300: #4DA3FF;
+    --color-brand-500:  #66B2FF;
     --color-brand-700: #2bebfc;
     --color-brand-900: #0cdef0;
     --border-color: #e0e1e3;

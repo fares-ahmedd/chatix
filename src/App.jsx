@@ -6,11 +6,11 @@ import { AuthContextProvider } from "./context/AppDataContext.jsx";
 import NotFoundPage from "./ui/PageNotFound.jsx";
 import { DarkModeProvider } from "./context/DarkModeContext.jsx";
 import Loader from "./ui/LoadingSpinner.jsx";
+import ProtectedPage from "./features/ProtectedPage.jsx";
 
 const Login = lazy(() => import("./pages/login/Login.jsx"));
 const SignUp = lazy(() => import("./pages/signup/Signup.jsx"));
 const Home = lazy(() => import("./pages/Home.jsx"));
-const ProtectedPage = lazy(() => import("./features/ProtectedPage.jsx"));
 
 const router = createBrowserRouter([
   {

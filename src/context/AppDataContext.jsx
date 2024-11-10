@@ -46,9 +46,7 @@ function AuthContextProvider({ children }) {
       dispatch({ type: "auth/setCurrentUser", payload: user });
       dispatch({ type: "loaded" });
     });
-    return () => {
-      unsub();
-    };
+    return () => unsub();
   }, []);
   const values = {
     currentUser,
