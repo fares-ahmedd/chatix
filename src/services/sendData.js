@@ -14,6 +14,7 @@ export default async function sendData(
   navigate
 ) {
   try {
+    setIsLoading(true);
     const response = await createUser(auth, email, password);
     if (!response)
       throw new Error(
@@ -43,7 +44,6 @@ export default async function sendData(
           await setDoc(doc(db, "users", response.user.uid), userData);
           await setDoc(doc(db, "userChats", response.user.uid), {});
           navigate("/");
-          setIsLoading(false);
         }
       );
     } else {
@@ -60,10 +60,11 @@ export default async function sendData(
       await setDoc(doc(db, "users", response.user.uid), userData);
       await setDoc(doc(db, "userChats", response.user.uid), {});
       navigate("/");
-      setIsLoading(false);
     }
   } catch (error) {
     setError(error.message);
+    setIsLoading(false);
+  } finally {
     setIsLoading(false);
   }
 }

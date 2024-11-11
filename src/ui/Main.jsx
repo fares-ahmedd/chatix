@@ -37,7 +37,7 @@ function Main({ children, title }) {
   return (
     <MainElement>
       <Section>
-        <LazyLoadingLogo />
+        <LazyLoadingLogo dimensions="120px" />
         <H2>Welcome To Chatix</H2>
         <P>{title}</P>
         {children}

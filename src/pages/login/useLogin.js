@@ -34,7 +34,7 @@ function useLogin() {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/");
-    } catch (_) {
+    } catch {
       emailInputRef?.current.focus();
       setError(true);
     } finally {

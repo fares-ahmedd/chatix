@@ -10,14 +10,10 @@ import { useAuth } from "../../context/AppDataContext";
 import Loader from "../../ui/LoadingSpinner";
 import { useEffect } from "react";
 
-const PositionButton = styled.div`
-  margin: 15px auto;
-  width: 70%;
-  text-align: center;
-`;
 const Account = styled.div`
   font-weight: 700;
   text-align: center;
+  margin-top: 10px;
 `;
 
 const ErrorMessage = styled.p`
@@ -84,12 +80,11 @@ function Login() {
           </ErrorMessage>
         )}
 
-        <PositionButton>
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? <Spinner /> : "LOGIN"}
-          </Button>
-        </PositionButton>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <Spinner /> : "LOGIN"}
+        </Button>
       </form>
+
       <Account>
         {isLoading ? (
           <h1>Loading...</h1>

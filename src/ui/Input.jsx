@@ -58,9 +58,9 @@ const FormInputLabel = styled.label`
   left: 15px;
   top: 10px;
   transition: 300ms ease all;
-  background-color: var(
-    --global-background
-  ); // Add background to prevent text overlap
+  background-color: var(--global-background);
+  padding: 2px 10px;
+  border-radius: 6px;
 
   ${(props) =>
     props.className === "shrink" &&

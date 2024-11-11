@@ -1,5 +1,5 @@
 import Input from "../../ui/Input";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Main from "../../ui/Main";
 import Button from "../../ui/Button";
 import styled from "styled-components";
@@ -11,12 +11,8 @@ import { PASSWORD_REGEX } from "../../utils/regex";
 import sendData from "../../services/sendData";
 import { useAuth } from "../../context/AppDataContext";
 
-const PositionButton = styled.div`
-  margin: 5px auto;
-  width: 70%;
-  text-align: center;
-`;
 const Account = styled.div`
+  margin-top: 10px;
   font-weight: 700;
   text-align: center;
 `;
@@ -33,10 +29,8 @@ const ErrorMessage = styled.p`
   color: red;
   text-align: center;
   background-color: #ff000037;
-  width: fit-content;
-  margin: auto;
+  margin: 10px auto;
   padding: 7px;
-  border-radius: 10px;
 `;
 
 const initialValues = {
@@ -81,8 +75,7 @@ function SignUp() {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    setIsLoading(true);
-
+    if (!email || !password || !name) return;
     sendData(email, password, name, file, setError, setIsLoading, navigate);
   }
 
@@ -90,7 +83,7 @@ function SignUp() {
     if (inputRef.current) inputRef.current.focus();
   }, [inputRef, isLoading]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (currentUser?.accessToken && !isLogging) navigate("/");
   }, [navigate, isLogging, currentUser?.accessToken]);
 
@@ -162,11 +155,9 @@ function SignUp() {
         )}
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
-        <PositionButton>
-          <Button type="submit" disabled={isLoading || isCompleteData}>
-            {isLoading ? <Spinner /> : "Signup"}
-          </Button>
-        </PositionButton>
+        <Button type="submit" disabled={isLoading || isCompleteData}>
+          {isLoading ? <Spinner /> : "Signup"}
+        </Button>
       </form>
       <Account>
         <span>you already have an account? </span>
