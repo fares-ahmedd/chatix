@@ -106,7 +106,7 @@ function Message({ message }) {
         <Time>{formatTime(time)}</Time>
       </Section>
       <Article>
-        <ContentMessage>{message.text}</ContentMessage>
+        {message.text && <ContentMessage>{message.text}</ContentMessage>}
         {message.image && (
           <ImageContainer>
             <Loading>Loading Image</Loading>

@@ -15,7 +15,6 @@ const Li = styled.li`
   transition: 0.6s;
   padding: 7px 2px;
   margin: 3px;
-  border-bottom: 2px solid var(--border-color);
   border-radius: 10px 10px 0 0;
 
   &:hover,

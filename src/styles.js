@@ -28,7 +28,7 @@ const GlobalStyles = createGlobalStyle`
 
     --color-brand-50: #eef2ff;
     --color-brand-100: #e0e7ff;
-    --color-brand-300: #4DA3FF;
+    --color-brand-300: #007bff;
     --color-brand-500:  #66B2FF;
     --color-brand-700: #2bebfc;
     --color-brand-900: #0cdef0;
@@ -78,6 +78,9 @@ const GlobalStyles = createGlobalStyle`
 
   button {
     cursor: pointer;
+    border: none;
+    background-color: transparent;
+
   }
 
   *:disabled {
@@ -111,6 +114,11 @@ const GlobalStyles = createGlobalStyle`
     background-color: var(--text-color-900);
  }
 
+@media (max-width:650px) {
+  .talk {
+    display: none;
+}
+}
 
 `;
 

@@ -23,12 +23,12 @@ const User = styled.div`
   align-items: center;
   gap: 10px;
 `;
-const StyledIcons = styled.ul`
+const StyledIcons = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
 `;
-const Icon = styled.li`
+const Icon = styled.button`
   cursor: pointer;
   font-size: 20px;
   transition: 0.3s;
@@ -40,7 +40,7 @@ const Icon = styled.li`
     color: var(--color-brand-50);
   }
 `;
-const ToggleIcon = styled.span`
+const ToggleIcon = styled.button`
   cursor: pointer;
   font-size: 28px;
   transition: 0.3s;
@@ -54,7 +54,7 @@ const ToggleIcon = styled.span`
   }
 `;
 const PersonName = styled.h5`
-  font-size: 22px;
+  font-size: clamp(14px, 2.5vw, 22px);
   text-shadow: 1px 1px 3px #9e9e9e;
   text-transform: capitalize;
 `;
@@ -75,12 +75,14 @@ function Header({ selectedUser }) {
       <ToggleIcon
         onClick={handleToggleIsOpen}
         className={isOpen ? "active" : ""}
+        aria-label={isOpen ? "close button" : "open button"}
+        title={isOpen ? "close" : "open"}
       >
         <BsPeopleFill />
       </ToggleIcon>
       {selectedUser && (
         <User>
-          <p>talking to:</p>
+          <p className="talk">talking to:</p>
           <LazyLoadingLogo
             isSrc={checkValidImage(selectedUser.photoURL)}
             dimensions="50px"
@@ -90,10 +92,14 @@ function Header({ selectedUser }) {
         </User>
       )}
       <StyledIcons>
-        <Icon onClick={toggleDarkMode}>
+        <Icon
+          onClick={toggleDarkMode}
+          aria-label="toggle theme"
+          title="toggle theme"
+        >
           {isDarkMode ? <FaSun /> : <FaMoon />}
         </Icon>
-        <Icon onClick={handleLogout}>
+        <Icon onClick={handleLogout} aria-label="logout" title="logout">
           <IoIosLogOut />
         </Icon>
       </StyledIcons>

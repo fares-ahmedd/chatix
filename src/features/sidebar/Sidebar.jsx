@@ -24,7 +24,7 @@ const Hr = styled.hr`
   border-color: var(--border-color);
 `;
 
-const H5 = styled.h5`
+const Span = styled.span`
   color: var(--text-color-900);
   font-weight: 900;
   letter-spacing: 1.2px;
@@ -93,7 +93,7 @@ function Sidebar({ setSelectedUser }) {
             isSrc={checkValidImage(photoURL)}
             dimensions="50px"
           />
-          <H5>{displayName}</H5>
+          <Span>{displayName}</Span>
         </Info>
         <Hr />
         <Container>

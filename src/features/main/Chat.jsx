@@ -43,13 +43,11 @@ const InputFile = styled.input`
 `;
 
 const StyledButton = styled.button`
-  border: none;
   font-size: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--input-color-500);
-  background-color: transparent;
 
   &:disabled {
     opacity: 0.5;
@@ -79,7 +77,7 @@ const Emoji = styled.span`
   cursor: pointer;
 `;
 
-const StyledUploadImage = styled.span`
+const StyledUploadImage = styled.button`
   font-size: 13px;
   color: var(--input-color-500);
   position: absolute;
@@ -167,11 +165,15 @@ function Chat() {
           ref={InputRef}
         />
         <ButtonsGroup>
-          <StyledButton disabled={text.trim() === "" && !image}>
+          <StyledButton
+            disabled={text.trim() === "" && !image}
+            aria-label="send"
+            title="send"
+          >
             <IoSendSharp />
           </StyledButton>
           <Emojis>
-            <Emojis.Toggle id={"emoji"} />
+            <Emojis.Toggle id={"emoji"} aria-label={"emojis"} title="emojis" />
             <Emojis.List id={"emoji"}>
               {emojisArray.map((emj) => (
                 <Emoji

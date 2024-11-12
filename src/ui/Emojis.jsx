@@ -8,8 +8,7 @@ import { MdOutlineEmojiEmotions } from "react-icons/md";
 
 const StyledToggle = styled.button`
   font-size: 25px;
-  background-color: transparent;
-  border: none;
+
   display: flex;
   transition: 0.3s;
   border-radius: 10px;
@@ -53,7 +52,7 @@ function Emojis({ children }) {
     </EmojisContext.Provider>
   );
 }
-function Toggle({ id }) {
+function Toggle({ id, ...props }) {
   const { openId, close, open, setPosition } = useContext(EmojisContext);
   function handleClick(e) {
     e.preventDefault();
@@ -66,7 +65,7 @@ function Toggle({ id }) {
     });
   }
   return (
-    <StyledToggle onClick={handleClick} role="button">
+    <StyledToggle onClick={handleClick} role="button" {...props}>
       {!openId ? <MdOutlineEmojiEmotions /> : <MdEmojiEmotions />}
     </StyledToggle>
   );
