@@ -45,6 +45,10 @@ const NoResultsMessage = styled.span`
 const Container = styled.section`
   padding: 0 5px;
 `;
+const Ul = styled.ul`
+  display: flex;
+  flex-direction: column;
+`;
 
 function Sidebar({ setSelectedUser }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -106,7 +110,7 @@ function Sidebar({ setSelectedUser }) {
             type={"search"}
           />
           {filteredUsers.length > 0 ? (
-            <ul>
+            <Ul>
               {filteredUsers.map((user) => (
                 <User
                   user={user}
@@ -115,7 +119,7 @@ function Sidebar({ setSelectedUser }) {
                   className={user.uid === activeUser ? "active" : ""}
                 />
               ))}
-            </ul>
+            </Ul>
           ) : loading ? (
             <span>Loading Users...</span>
           ) : (

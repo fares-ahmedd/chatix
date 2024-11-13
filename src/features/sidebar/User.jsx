@@ -22,6 +22,9 @@ const Li = styled.li`
     background-color: var(--color-brand-300);
     color: var(--color-brand-50);
   }
+  &.active {
+    order: -1;
+  }
 `;
 function User({ user, onClick, className }) {
   return (
