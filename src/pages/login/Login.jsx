@@ -24,6 +24,7 @@ const ErrorMessage = styled.p`
   padding: 7px;
   border-radius: 5px;
   border-right: 5px solid red;
+  margin-bottom: 10px;
 `;
 function Login() {
   const {
@@ -76,7 +77,8 @@ function Login() {
         />
         {error && (
           <ErrorMessage>
-            Please verify the email and password you entered and try again
+            wrong password or email , Please verify the email and password you
+            entered and try again
           </ErrorMessage>
         )}
 
@@ -86,11 +88,8 @@ function Login() {
       </form>
 
       <Account>
-        {isLoading ? (
-          <h1>Loading...</h1>
-        ) : (
+        {!isLoading && (
           <>
-            {" "}
             <span>you don't have an account? </span>
             <Link to={"/signup"}>Register</Link>
           </>

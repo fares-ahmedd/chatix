@@ -13,7 +13,7 @@ const AuthContext = createContext();
 const initialState = {
   currentUser: null,
   isOpen: true,
-  isSelected: localStorage.getItem("combinedId") !== null || undefined,
+  isSelected: localStorage.getItem("combinedId") !== null,
   isLoading: true,
 };
 

@@ -6,10 +6,11 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import InputSelectFile from "../../ui/InputSelectFile";
 import Spinner from "../../ui/Spinner";
-import useSignup from "./useSignup";
+import useSignup from "./usePickedImage";
 import { PASSWORD_REGEX } from "../../utils/regex";
 import sendData from "../../services/sendData";
 import { useAuth } from "../../context/AppDataContext";
+import { usePickedImage } from "./useSignupStates";
 
 const Account = styled.div`
   margin-top: 10px;
@@ -42,14 +43,13 @@ const initialValues = {
 const ContainerImg = styled.div`
   width: 200px;
   height: 200px;
-  margin: 5px auto;
+  margin: 10px auto;
   border-radius: 10px;
 `;
 function SignUp() {
-  // todo : hooks
   const [{ name, email, password, file }, setValues] = useState(initialValues);
+  const { pickedImage, handleUploadImageChange } = usePickedImage(setValues);
   const [error, setError] = useState("");
-  const [pickedImage, setPickedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef(null);
   const { setEditsValues, invalidEmail, invalidName, invalidPassword } =
@@ -57,15 +57,18 @@ function SignUp() {
   const navigate = useNavigate();
   const { currentUser, isLoading: isLogging } = useAuth();
 
-  // todo : vars
-  const isCompleteData =
-    name.trim() === "" ||
-    email.trim() === "" ||
-    password.trim() === "" ||
-    invalidEmail ||
-    invalidName ||
-    invalidPassword ||
-    PASSWORD_REGEX.test(password) === false;
+  function isCompleteData() {
+    return (
+      name.trim() === "" ||
+      email.trim() === "" ||
+      password.trim() === "" ||
+      invalidEmail ||
+      invalidName ||
+      invalidPassword ||
+      PASSWORD_REGEX.test(password) === false
+    );
+  }
+
   // todo : handlers functions
   function handleChange(name, value) {
     setValues((prevValue) => ({ ...prevValue, [name]: value }));
@@ -86,20 +89,6 @@ function SignUp() {
   useEffect(() => {
     if (currentUser?.accessToken && !isLogging) navigate("/");
   }, [navigate, isLogging, currentUser?.accessToken]);
-
-  const handleUploadImageChange = (e) => {
-    const file = e.target.files[0];
-    setValues((prevValue) => ({
-      ...prevValue,
-      file,
-    }));
-
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      setPickedImage(fileReader.result);
-    };
-    fileReader.readAsDataURL(file);
-  };
 
   return (
     <Main title={"Create a new account"}>
@@ -155,16 +144,18 @@ function SignUp() {
         )}
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
-        <Button type="submit" disabled={isLoading || isCompleteData}>
+        <Button type="submit" disabled={isLoading || isCompleteData()}>
           {isLoading ? <Spinner /> : "Signup"}
         </Button>
       </form>
-      <Account>
-        <span>you already have an account? </span>
-        <Register>
-          {isLoading ? "loading..." : <Link to={"/login"}>Login</Link>}
-        </Register>
-      </Account>
+      {!isLoading && (
+        <Account>
+          <span>you already have an account? </span>
+          <Register>
+            <Link to={"/login"}>Login</Link>
+          </Register>
+        </Account>
+      )}
     </Main>
   );
 }

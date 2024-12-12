@@ -20,10 +20,6 @@ const StyledSidebar = styled.aside`
   }
 `;
 
-const Hr = styled.hr`
-  border-color: var(--border-color);
-`;
-
 const Span = styled.span`
   color: var(--text-color-900);
   font-weight: 900;
@@ -99,7 +95,7 @@ function Sidebar({ setSelectedUser }) {
           />
           <Span>{displayName}</Span>
         </Info>
-        <Hr />
+
         <Container>
           <Input
             label={"Search User"}

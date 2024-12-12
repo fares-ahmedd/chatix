@@ -1,50 +1,36 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import pageNotFound from "../assets/notFound.svg";
-import Button from "./Button";
 import { Link, useNavigate } from "react-router-dom";
-const FadeIn = keyframes`
- 0% {
-   opacity: 0;
-   transform: translateY(50px);
- }
- 100% {
-   opacity: 1;
-   transform: translateY(0);
- }
-`;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-inline: 1rem;
   height: 100vh;
   background-color: var(--background);
-  animation: ${FadeIn} 0.8s ease-in-out;
 `;
 
 const Image = styled.img`
   max-width: 300px;
   width: 100%;
   margin-bottom: 2rem;
-  animation: ${FadeIn} 1s ease-in-out 0.2s;
-  animation-fill-mode: both;
+  aspect-ratio: 1/1; // Or whatever matches your image's aspect ratio
+  object-fit: contain;
 `;
 
 const Title = styled.h1`
-  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: bold;
   margin-bottom: 1rem;
-  animation: ${FadeIn} 1s ease-in-out 0.4s;
-  animation-fill-mode: both;
 `;
 
 const Description = styled.p`
-  font-size: 1.5rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
   margin-bottom: 2rem;
-  animation: ${FadeIn} 1s ease-in-out 0.6s;
-  animation-fill-mode: both;
+
   text-align: center;
 `;
 
@@ -52,21 +38,23 @@ function NotFoundPage() {
   const navigate = useNavigate("");
   return (
     <Container>
-      <Image src={pageNotFound} alt="404 Not Found" />
+      <Image src={pageNotFound} alt="404 Not Found" draggable={false} />
       <Title>Oops! Page Not Found</Title>
       <Description>
         The page you're looking for doesn't exist or has been moved.
       </Description>
-      <Button>
-        <Link
-          onClick={() => {
-            navigate("/");
-          }}
-          style={{ color: "inherit" }}
-        >
-          Go Back Home
-        </Link>{" "}
-      </Button>
+      <Link
+        onClick={() => {
+          navigate("/");
+        }}
+        style={{
+          color: "inherit",
+          textTransform: "uppercase",
+          textDecoration: "underline",
+        }}
+      >
+        Go Back Home
+      </Link>{" "}
     </Container>
   );
 }

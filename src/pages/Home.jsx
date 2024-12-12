@@ -16,9 +16,11 @@ const Main = styled.main`
 `;
 
 function Home() {
-  const [selectedUser, setSelectedUser] = useState(
-    JSON.parse(localStorage.getItem("last-talk"))
-  );
+  const [selectedUser, setSelectedUser] = useState(() => {
+    const currentUser = localStorage.getItem("last-talk");
+
+    return currentUser ? JSON.parse(currentUser) : null;
+  });
   const { isOpen } = useAuth();
 
   return (
